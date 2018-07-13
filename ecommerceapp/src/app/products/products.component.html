@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-md-3" style="margin-bottom:15px">
+    <div class="list-group">
+      <a class="list-group-item" *ngFor="let cat of categories" routerLink="/products" [queryParams]="{category : cat.key}">
+        {{cat.data.description}}
+      </a>
+    </div>
+  </div>
+  <div class="col">
+    <div class="row">
+      <div class="col" *ngFor="let x of tempProducts;let i = index;" style="margin-bottom:15px">
+        <div class="card" style="width: 15rem;">
+          <img class="card-img-top" width=150 height=150 src="{{x.data.imageUrl}}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{x.data.title}}</h5>
+            <p class="card-text">
+              {{x.data.price | currency : 'USD' }}
+            </p>
+          </div>
+          <div class="card-footer" style="padding:0px">
+            <button (click)="addToCart(x.key)" class="btn btn-primary btn-block">Add To cart</button>
+            <!--<div>{{getCartRef(x)}}</div>-->
+          </div>
+        </div>
+
+        <div *ngIf="(i+1)%2==0" class="w-100"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-6">
+    <form [formGroup]="frm">
+      <div class="form-group">
+        <label>Category Description</label>
+        <input class="form-control" type="text" formControlName="description">
+      </div>
+    </form>
+  </div>
+</div>
+<p>
+  <a class="btn btn-primary" (click)="addCategory()">Add Product Category</a>
+</p>
+<table class="table table-striped" [mfData]="categories" #mf="mfDataTable" [mfRowsOnPage]="5">
+  <thead>
+    <tr>
+      <th>
+        <mfDefaultSorter by="description">Category Description</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter>Action</mfDefaultSorter>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of categories">
+      <td>{{item.data.description}}</td>
+      <td>
+        <a (click)="deleteCategory(item.key)" class="mouse-pointer">Delete</a>&nbsp;&nbsp;
+        <a (click)="editCategory()" class="mouse-pointer">Edit</a>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">
+        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+      </td>
+    </tr>
+  </tfoot>
+</table>

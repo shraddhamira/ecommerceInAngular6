@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2>My Cart</h2>
+  </div>
+  <div class="col-md-12">
+    <table class="table table-striped" [mfData]="selectedProductsdata" #mf="mfDataTable" [mfRowsOnPage]="5">
+      <thead>
+        <tr>
+          <th style="width: 40%">
+            <mfDefaultSorter by="imageurl">Image</mfDefaultSorter>
+          </th>
+          <th style="width: 30%">
+            <mfDefaultSorter by="title">Product Name</mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter by="price">Quantity</mfDefaultSorter>
+          </th>
+          <th style="width: 20%">
+            <mfDefaultSorter by="category">Price</mfDefaultSorter>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of selectedProductsdata">
+          <td>
+            <img src="{{item.data.imageUrl}}" width="150px" height="150px">
+          </td>
+          <td>{{item.data.title}}</td>
+          <td>
+            <div *ngFor="let cat of categories">
+              <span *ngIf="item.data.category==cat.key">{{cat.data.description}}</span>
+            </div>
+          </td>
+          <td>{{item.data.price | currency : 'USD'}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="col">
+    <a class="btn btn-primary" routerLink="/place-order">Place Order</a>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2>Manage Products</h2>
+    <hr>
+  </div>
+  <div class="col-md-12 mb-12">
+    <a class="btn btn-primary" routerLink="/admin/products/new">+</a>
+  </div>
+
+  <div class="col-md-12">
+    <table class="table table-striped" [mfData]="products" #mf="mfDataTable" [mfRowsOnPage]="5">
+      <thead>
+        <tr>
+          <th style="width: 40%">
+            <mfDefaultSorter by="imageurl"></mfDefaultSorter>
+          </th>
+          <th style="width: 30%">
+            <mfDefaultSorter by="title">Product Name</mfDefaultSorter>
+          </th>
+          <th style="width: 10%">
+            <mfDefaultSorter by="price">Category</mfDefaultSorter>
+          </th>
+          <th style="width: 20%">
+            <mfDefaultSorter by="category">Price</mfDefaultSorter>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of products">
+          <td>
+            <img src="{{item.data.imageUrl}}" width="150px" height="150px">
+          </td>
+          <td>{{item.data.title}}</td>
+          <td>
+            <div *ngFor="let cat of categories">
+              <span *ngIf="item.data.category==cat.key">{{cat.data.description}}</span>
+            </div>
+          </td>
+          <td>{{item.data.price | currency : 'USD'}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
