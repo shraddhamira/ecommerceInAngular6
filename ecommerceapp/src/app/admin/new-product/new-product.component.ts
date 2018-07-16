@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-product.component.css']
 })
 export class NewProductComponent implements OnInit {
-  private frm: FormGroup;
-  private categories: any[] = [];
+  frm: FormGroup ;
+  categories: any[] = [];
 
   constructor(private productService: ProductService, private categoryService: CategoryService, private router: Router) {
     this.frm = new FormGroup({

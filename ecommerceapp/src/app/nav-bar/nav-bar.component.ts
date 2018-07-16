@@ -8,11 +8,11 @@ import { AuthService } from '../providers/auth.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  constructor(private auth : AuthService) {}
+  constructor(public auth : AuthService) {}
 
   ngOnInit() {
   }
-
+  
   logout() {
     this.auth.logout();
   }

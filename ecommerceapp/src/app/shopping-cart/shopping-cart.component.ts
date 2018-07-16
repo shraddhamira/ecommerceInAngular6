@@ -9,7 +9,7 @@ import { ProductService } from '../providers/product.service';
 export class ShoppingCartComponent implements OnInit {
   private cartData: any[];
   private productsData: any[];
-  private selectedProductsdata: any[];
+  selectedProductsdata: any[];
   constructor(private cartService: CartService, private productService: ProductService) { }
 
   ngOnInit() {

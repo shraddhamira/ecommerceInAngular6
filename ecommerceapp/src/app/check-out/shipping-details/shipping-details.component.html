@@ -1,0 +1,75 @@
+<div class="container">
+  <form class="form-horizontal" role="form" [formGroup]="form">
+    <fieldset>
+      <legend>Please provide Shipping details</legend>
+      <div class="form-group">
+        <label class="col-md-3 control-label" for="firstName">Name</label>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6">
+              <input type="text" class="form-control" formControlName="firstName" placeholder="First Name">
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label" for="addressLine1">Address Line 1</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" formControlName="addressLine1" placeholder="Flat #, Apartment Nume">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label" for="addressLine1">Address Line 2</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" formControlName="addressLine2" placeholder="Nearby, Area, Town">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label" for="landmark">Landmark</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" formControlName="landmark" placeholder="Landmark">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label" for="city">City</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" formControlName="city" placeholder="City">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label" for="state">State</label>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-9">
+                <input type="text" class="form-control" formControlName="state" placeholder="State">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" formControlName="zipcode" placeholder="Zipcode">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-3 control-label" for="contactNumber">Contact Number</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" formControlName="contactNumber" placeholder="Mobile Number, Landline  ...">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-offset-3 col-md-9">
+          <button type="button" class="btn btn-success" (click)="submitShippingDetails()">Next</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>

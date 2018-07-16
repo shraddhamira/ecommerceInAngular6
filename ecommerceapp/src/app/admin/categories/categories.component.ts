@@ -9,8 +9,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class CategoriesComponent implements OnInit {
 
-  private frm: FormGroup;
-  private categories: any[] = [];
+  frm: FormGroup;
+  categories: any[] = [];
 
   constructor(private categoryService: CategoryService) {
     this.frm = new FormGroup({

@@ -67,4 +67,10 @@ export class CartService {
         })
 
     }
+
+    destroyCart(){
+        let cartId = this.getExistingCartId();
+        localStorage.removeItem(cartId);
+        return this.http.delete('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json')
+    }
 }

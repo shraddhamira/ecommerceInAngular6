@@ -1,3 +1,62 @@
-<p>
-  check-out works!
-</p>
+<ngb-tabset #tab="ngbTabset">
+  <ngb-tab title="Confirm Products" id="tab-check-out">
+    <ng-template ngbTabContent>
+      <fieldset>
+        <legend>Please confirm below items in your cart</legend>
+        <table class="table" [mfData]="selectedProductsdata" #mf="mfDataTable" [mfRowsOnPage]="10">
+
+          <thead>
+            <tr>
+              <th style="width: 40%">
+                <mfDefaultSorter by="imageurl">Image</mfDefaultSorter>
+              </th>
+              <th style="width: 30%">
+                <mfDefaultSorter by="title">Product Name</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="price">Quantity</mfDefaultSorter>
+              </th>
+              <th style="width: 20%">
+                <mfDefaultSorter by="category">Price</mfDefaultSorter>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of selectedProductsdata">
+              <td>
+                <img src="{{item.data.imageUrl}}" width="150px" height="150px">
+              </td>
+              <td>{{item.data.title}}</td>
+              <td>1</td>
+              <td>{{item.data.price | currency : 'USD'}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        <p>
+          <button class="btn btn-primary" (click)="tab.select('tab-shipping')">Next</button>
+        </p>
+      </fieldset>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Shipping Details" id="tab-shipping">
+    <ng-template ngbTabContent>
+      <div class="row">
+        <div class="col-md-12">
+          <app-shipping-details [tabref]="tab" [form]="shippingForm" (submitForm)="retrieveShippingDetails($event)"></app-shipping-details>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Payment Details" id="tab-payment">
+    <ng-template ngbTabContent>
+      <app-payment-details [form]="paymentForm" (submitForm)="retrievePaymentDetails($event)"></app-payment-details>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

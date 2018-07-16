@@ -11,11 +11,11 @@ import { CartService } from '../providers/cart.service';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  private categories : any[]=[];
-  private products: any[] = [];
-  private tempProducts: any[] = [];
+  categories: any[] = [];
+  products: any[] = [];
+  tempProducts: any[] = [];
 
-  constructor(private db: AngularFireDatabase, private routeParam: ActivatedRoute, private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute, private cartService : CartService) { }
+  constructor(private db: AngularFireDatabase, private routeParam: ActivatedRoute, private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute, private cartService: CartService) { }
 
   ngOnInit() {
     this.getCategories();
@@ -62,7 +62,7 @@ export class ProductsComponent implements OnInit {
     )
   }
 
-  addToCart(product){
+  addToCart(product) {
     this.cartService.addToCart(product);
   }
 

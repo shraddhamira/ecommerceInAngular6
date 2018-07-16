@@ -32,6 +32,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { CategoryService } from './providers/category.service';
 import { CategoriesComponent } from './admin/categories/categories.component';
 import { CartService } from './providers/cart.service';
+import { ShippingDetailsComponent } from './check-out/shipping-details/shipping-details.component';
+import { PaymentDetailsComponent } from './check-out/payment-details/payment-details.component';
+import { OrderService } from './providers/order.service';
 //firebase end
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import { CartService } from './providers/cart.service';
     LoginComponent,
     OrderSucessComponent,
     NewProductComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    ShippingDetailsComponent,
+    PaymentDetailsComponent
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule,
@@ -66,11 +71,11 @@ import { CartService } from './providers/cart.service';
     { path: 'admin/categories', component: CategoriesComponent },
     { path: 'login', component: LoginComponent },
     { path: 'cart', component: ShoppingCartComponent },
-    { path: 'place-order', component: ShoppingCartComponent }]),
+    { path: 'check-out', component: CheckOutComponent }]),
     AngularFireModule.initializeApp(environment.firebase, 'ecommerce'),
     AngularFireAuthModule
   ],
-  providers: [AuthService, ProductService, CategoryService, CartService],
+  providers: [AuthService, ProductService, CategoryService, CartService, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

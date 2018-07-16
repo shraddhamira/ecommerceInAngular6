@@ -8,16 +8,15 @@ import { CategoryService } from '../../providers/category.service';
   styleUrls: ['./admin-products.component.css']
 })
 export class AdminProductsComponent implements OnInit {
-  private products: any[] = [];
-  private categories : any[]=[];
+  products: any[] = [];
+  categories: any[] = [];
 
-  constructor(private productService: ProductService, private categoryService : CategoryService) { }
+  constructor(private productService: ProductService, private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.getCategories();
     this.productService.getData().subscribe(
       (res) => {
-        console.log(res);
         let keys = Object.keys(res);
         this.products = keys.map(function (key) {
           return { key: key, data: res[key] }

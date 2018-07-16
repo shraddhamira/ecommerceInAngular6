@@ -26,11 +26,7 @@
             <img src="{{item.data.imageUrl}}" width="150px" height="150px">
           </td>
           <td>{{item.data.title}}</td>
-          <td>
-            <div *ngFor="let cat of categories">
-              <span *ngIf="item.data.category==cat.key">{{cat.data.description}}</span>
-            </div>
-          </td>
+          <td>1</td>
           <td>{{item.data.price | currency : 'USD'}}</td>
         </tr>
       </tbody>
@@ -44,6 +40,6 @@
     </table>
   </div>
   <div class="col">
-    <a class="btn btn-primary" routerLink="/place-order">Place Order</a>
+    <a class="btn btn-primary" routerLink="/check-out">Place Order</a>
   </div>
 </div>
