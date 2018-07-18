@@ -35,6 +35,7 @@ import { CartService } from './providers/cart.service';
 import { ShippingDetailsComponent } from './check-out/shipping-details/shipping-details.component';
 import { PaymentDetailsComponent } from './check-out/payment-details/payment-details.component';
 import { OrderService } from './providers/order.service';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 //firebase end
 @NgModule({
   declarations: [
@@ -57,8 +58,9 @@ import { OrderService } from './providers/order.service';
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule,
-    NgbModule.forRoot(), DataTableModule, AngularFireDatabaseModule, HttpModule,
-    RouterModule.forRoot([{ path: '', redirectTo: '/home', pathMatch: 'full' },
+    NgbModule.forRoot(), DataTableModule, AngularFireDatabaseModule, HttpModule, AngularFirestoreModule,
+    RouterModule.forRoot([//{ path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'index.html', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'products', component: ProductsComponent },
     { path: 'shopping-cart', component: ShoppingCartComponent },

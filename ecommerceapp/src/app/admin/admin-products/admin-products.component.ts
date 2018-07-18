@@ -17,9 +17,10 @@ export class AdminProductsComponent implements OnInit {
     this.getCategories();
     this.productService.getData().subscribe(
       (res) => {
-        let keys = Object.keys(res);
+        let jsonRecord = res.json();
+        let keys = Object.keys(jsonRecord);
         this.products = keys.map(function (key) {
-          return { key: key, data: res[key] }
+          return { key: key, data: jsonRecord[key] }
         })
       },
       (err) => {
@@ -31,6 +32,7 @@ export class AdminProductsComponent implements OnInit {
   getCategories() {
     this.categoryService.getCategories().subscribe(
       (res) => {
+        let jsonRecord = res.json();
         let keys = Object.keys(res);
         this.categories = keys.map(function (key) {
           return { key: key, data: res[key] }

@@ -1,3 +1,12 @@
-<p>
-  my-orders works!
-</p>
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngFor="let item of items | async">
+  <ngb-panel title="{{item.selectedProductsDetails.length}} Products">
+    <ng-template ngbPanelContent>
+      <p>Order Date : {{item.orderDate | date }}</p>
+      <p>Delivery Location : {{item.shippingDetails.city}}</p>
+      <p>Delivery Date : {{item.orderDate | date }}</p>
+
+      
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+<br />

@@ -20,7 +20,8 @@
         <input class="form-control" type="text" formControlName="imageUrl">
       </div>
       <div class="form-group">
-        <button class="btn btn-primary" (click)="saveProduct()">Save</button>
+        <button *ngIf="!productKey" class="btn btn-primary" (click)="saveProduct()">Save</button>
+        <button *ngIf="productKey" class="btn btn-primary" (click)="updateProduct()">Update</button>
       </div>
     </form>
   </div>

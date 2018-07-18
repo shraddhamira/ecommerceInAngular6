@@ -51,9 +51,10 @@ export class ProductsComponent implements OnInit {
   getCategories() {
     this.categoryService.getCategories().subscribe(
       (res) => {
-        let keys = Object.keys(res);
+        let jsonRecord = res.json();
+        let keys = Object.keys(jsonRecord);
         this.categories = keys.map(function (key) {
-          return { key: key, data: res[key] }
+          return { key: key, data: jsonRecord[key] }
         })
       },
       (err) => {

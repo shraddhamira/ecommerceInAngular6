@@ -13,4 +13,11 @@ export class ProductService {
         return this.http.post('https://ecommerce-14fab.firebaseio.com/products.json',data);
     }
 
+    getProductByKey(key){
+        return this.http.get('https://ecommerce-14fab.firebaseio.com/products/'+key+'.json');
+    }
+
+    updateProduct(key,data){
+        return this.http.put('https://ecommerce-14fab.firebaseio.com/products/'+key+'.json',data);
+    }
 }

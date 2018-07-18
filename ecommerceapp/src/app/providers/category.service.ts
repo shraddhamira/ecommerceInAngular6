@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
+import { Http } from "@angular/http";
 import { Injectable } from "@angular/core";
 @Injectable()
 export class CategoryService {
-    constructor(private http: HttpClient) { }
+    constructor(private http: Http) { }
 
     getCategories() {
         return this.http.get('https://ecommerce-14fab.firebaseio.com/categories.json');

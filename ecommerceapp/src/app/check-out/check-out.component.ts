@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderService } from '../providers/order.service';
 import { AuthService } from '../providers/auth.service';
 import { throws } from 'assert';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-check-out',
@@ -14,45 +15,63 @@ import { throws } from 'assert';
 export class CheckOutComponent implements OnInit {
   shippingForm: FormGroup;
   paymentForm: FormGroup;
-  shippingDetails : any ;
-  paymentDetails : any;
-  userDetails : any = {};
+  shippingDetails: any;
+  paymentDetails: any;
+  userDetails: any = {};
   private cartData: any[];
   private productsData: any[];
   selectedProductsdata: any[];
+  totalPrice: number = 0;
   constructor(private cartService: CartService, private productService: ProductService,
-    private orderService: OrderService, private authService: AuthService) { }
+    private orderService: OrderService, private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit() {
     this.getCurrentCartDetails();
     this.authService.user$.subscribe(
-      ((res)=>{
+      ((res) => {
         let userDetails = res.toJSON();
         this.userDetails['id'] = userDetails['uid'];
         this.userDetails['email'] = userDetails['email'];
       })
     );
+
+    this.shippingForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email : new FormControl(this.userDetails['email'],[Validators.required]),
+      addressLine1: new FormControl('', [Validators.required]),
+      addressLine2: new FormControl(''),
+      country: new FormControl('IND'),
+      contactNumber: new FormControl(''),
+      city: new FormControl('', [Validators.required]),
+      state: new FormControl('MAH', [Validators.required]),
+      zip: new FormControl('', [Validators.required])
+    });
+
+    this.paymentForm = new FormGroup({
+      cardHolderName: new FormControl('', [Validators.required]),
+      cardNumber: new FormControl('', [Validators.required]),
+      expiration: new FormControl('', [Validators.required]),
+      cvv: new FormControl('', [Validators.required])
+    });
   }
 
   getCurrentCartDetails() {
     this.cartService.getExistingProducts().subscribe((res) => {
       let jsonRecord = res.json();
-      let keys = Object.keys(jsonRecord);
-      this.cartData = keys.map(function (key) {
-        return { key: key, value: jsonRecord[key] }
-      });
-      this.getAllProductsData();
+      if (jsonRecord) {
+        let keys = Object.keys(jsonRecord);
+        this.cartData = keys.map(function (key) {
+          return { key: key, value: jsonRecord[key] }
+        });
+        this.getAllProductsData();
+      } else {
+        console.log("There are no items in your cart");
+      }
     }, (err) => {
       console.log(err);
     })
-  }
-
-  getAllCartProducts() {
-
-  }
-
-  removeFromCart(productKey) {
-
   }
 
   getAllProductsData() {
@@ -64,9 +83,10 @@ export class CheckOutComponent implements OnInit {
         this.productsData = keys.map(function (key) {
           return { key: key, data: jsonRecord[key] }
         });
-
+        let totalPrice = this.totalPrice;
         this.selectedProductsdata = this.productsData.filter(product => {
           return selectedProductsArray.find(function (element) {
+            totalPrice += product.data.price;
             return element == product.key;
           });
         })
@@ -81,33 +101,35 @@ export class CheckOutComponent implements OnInit {
     this.shippingDetails = shippingDetails;
   }
 
-  retrievePaymentDetails(paymentDetails: Object) {
-    this.paymentDetails = paymentDetails;
+  submitOrderDetails(paymentDetails: Object) {
+    //this.paymentDetails = paymentDetails;
     this.cartService.destroyCart().subscribe(
-      (res)=>{
+      (res) => {
         console.log("Cart Destroyed");
       },
-      (err)=>{
+      (err) => {
         console.error(err);
       }
     );
     this.orderService.addNewOrder(
       {
-        uid : this.userDetails['id'], 
-        selectedProductsDetails : this.selectedProductsdata,
-        shippingDetails : this.shippingDetails,
-        paymentDetails : this.paymentDetails
+        uid: this.userDetails['id'],
+        selectedProductsDetails: this.selectedProductsdata,
+        shippingDetails: this.shippingForm.value,
+        paymentDetails: this.paymentForm.value,
+        orderCreationDate: new Date()
       }).subscribe(
-        (res)=>{
+        (res) => {
           console.log("Order Placed Successfully");
+          this.router.navigate(['my-orders']);
         },
-        (error)=>{
+        (error) => {
           console.error(error);
         }
       )
   }
 
-  submitShippingForm(){
+  submitShippingForm() {
     this.shippingDetails = this.shippingForm.value;
   }
 

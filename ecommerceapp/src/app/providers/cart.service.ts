@@ -8,7 +8,13 @@ export class CartService {
     addToExistingCart(cartId, product) {
         this.getExistingProducts().subscribe((res) => {
             let jsonRecord = res.json();
-            jsonRecord.items.push(product);
+            if (jsonRecord) {
+                jsonRecord.items.push(product);
+            } else {
+                jsonRecord = {};
+                jsonRecord.items = [];
+                jsonRecord.items.push(product);
+            }
             this.http.put('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json',
                 { items: jsonRecord.items }).subscribe();
         }, (err) => {
@@ -46,7 +52,7 @@ export class CartService {
         }
     }
 
-    getExistingCartId(){
+    getExistingCartId() {
         return localStorage.getItem('cartId');
     }
 
@@ -55,20 +61,14 @@ export class CartService {
         return this.http.get('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json')
     }
 
-    removeFromCart(product){
+    removeFromCart(products) {
         let cartId = this.getExistingCartId();
-        this.getExistingProducts().subscribe((res) => {
-            let jsonRecord = res.json();
-            jsonRecord.items.splice(product);
-            this.http.put('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json',
-                { items: jsonRecord.items }).subscribe();
-        }, (err) => {
-            console.log(err);
-        })
-
+        return this.http.put('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json',{
+            items : products
+        });
     }
 
-    destroyCart(){
+    destroyCart() {
         let cartId = this.getExistingCartId();
         localStorage.removeItem(cartId);
         return this.http.delete('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json')

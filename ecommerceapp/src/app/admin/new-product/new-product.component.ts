@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductService } from '../../providers/product.service';
 import { CategoryService } from '../../providers/category.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-product',
@@ -10,10 +10,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-product.component.css']
 })
 export class NewProductComponent implements OnInit {
-  frm: FormGroup ;
+  frm: FormGroup;
   categories: any[] = [];
-
-  constructor(private productService: ProductService, private categoryService: CategoryService, private router: Router) {
+productKey : string;
+  constructor(private productService: ProductService, private categoryService: CategoryService,
+    private router: Router, private routeParam: ActivatedRoute) {
     this.frm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required]),
@@ -24,6 +25,27 @@ export class NewProductComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
+    this.routeParam.queryParamMap.subscribe(
+      (res) => {
+        this.productKey = res.get('productKey')
+        if (this.productKey) {
+          this.productService.getProductByKey(this.productKey).subscribe(
+            (res) => {
+              let jsonRecord = res.json();
+              this.frm.patchValue({
+                title: jsonRecord.title, price: jsonRecord.price,
+                category: jsonRecord.category, imageUrl: jsonRecord.imageUrl
+              })
+            }
+          )
+        }
+      },
+      (error) => {
+
+      }
+    )
+
+
   }
 
   saveProduct() {
@@ -39,9 +61,10 @@ export class NewProductComponent implements OnInit {
   getCategories() {
     this.categoryService.getCategories().subscribe(
       (res) => {
-        let keys = Object.keys(res);
+        let jsonRecord = res.json()
+        let keys = Object.keys(jsonRecord);
         this.categories = keys.map(function (key) {
-          return { key: key, data: res[key] }
+          return { key: key, data: jsonRecord[key] }
         })
       },
       (err) => {
@@ -49,4 +72,15 @@ export class NewProductComponent implements OnInit {
       }
     )
   }
+
+  updateProduct() {
+    this.productService.updateProduct(this.productKey,this.frm.value).subscribe(
+      (res) => {
+        this.router.navigate(['admin/products']);
+      }, (err) => {
+        console.error(err);
+      }
+    );
+  }
 }
+

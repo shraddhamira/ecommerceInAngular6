@@ -1,10 +1,12 @@
 <div class="row">
   <div class="col-md-12">
-    <h2>Manage Products</h2>
+    <div class="d-flex flex-row">
+      <h2>Manage Products</h2>
+    </div>
+    <div class="d-flex flex-row-reverse">
+      <a class="btn btn-primary mb-2" routerLink="/admin/products/new">Add New Product</a>
+    </div>
     <hr>
-  </div>
-  <div class="col-md-12 mb-12">
-    <a class="btn btn-primary" routerLink="/admin/products/new">+</a>
   </div>
 
   <div class="col-md-12">
@@ -17,11 +19,17 @@
           <th style="width: 30%">
             <mfDefaultSorter by="title">Product Name</mfDefaultSorter>
           </th>
-          <th style="width: 10%">
+          <th>
             <mfDefaultSorter by="price">Category</mfDefaultSorter>
           </th>
-          <th style="width: 20%">
+          <th>
             <mfDefaultSorter by="category">Price</mfDefaultSorter>
+          </th>
+          <th>
+            <mfDefaultSorter by="category">Availability</mfDefaultSorter>
+          </th>
+          <th>
+
           </th>
         </tr>
       </thead>
@@ -37,6 +45,11 @@
             </div>
           </td>
           <td>{{item.data.price | currency : 'USD'}}</td>
+          <td>Yes</td>
+          <td>
+            <a routerLink="/admin/products/new" [queryParams]="{productKey : item.key}">Edit</a>&nbsp;&nbsp;
+            <a routerLink="deleteProduct()">Delete</a>
+          </td>
         </tr>
       </tbody>
       <tfoot>

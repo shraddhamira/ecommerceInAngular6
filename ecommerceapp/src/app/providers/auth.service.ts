@@ -15,7 +15,7 @@ export class AuthService {
   }
 
   login() {
-    this._auth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())
+    return this._auth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
   }
 
   logout() {
