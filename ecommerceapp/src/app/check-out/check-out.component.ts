@@ -15,8 +15,6 @@ import { Router } from '@angular/router';
 export class CheckOutComponent implements OnInit {
   shippingForm: FormGroup;
   paymentForm: FormGroup;
-  shippingDetails: any;
-  paymentDetails: any;
   userDetails: any = {};
   private cartData: any[];
   private productsData: any[];
@@ -46,7 +44,8 @@ export class CheckOutComponent implements OnInit {
       contactNumber: new FormControl(''),
       city: new FormControl('', [Validators.required]),
       state: new FormControl('MAH', [Validators.required]),
-      zip: new FormControl('', [Validators.required])
+      zip: new FormControl('', [Validators.required]),
+      instruction : new FormControl('')
     });
 
     this.paymentForm = new FormGroup({
@@ -97,12 +96,7 @@ export class CheckOutComponent implements OnInit {
     )
   }
 
-  retrieveShippingDetails(shippingDetails: Object) {
-    this.shippingDetails = shippingDetails;
-  }
-
-  submitOrderDetails(paymentDetails: Object) {
-    //this.paymentDetails = paymentDetails;
+  submitOrderDetails() {
     this.cartService.destroyCart().subscribe(
       (res) => {
         console.log("Cart Destroyed");
@@ -117,7 +111,8 @@ export class CheckOutComponent implements OnInit {
         selectedProductsDetails: this.selectedProductsdata,
         shippingDetails: this.shippingForm.value,
         paymentDetails: this.paymentForm.value,
-        orderCreationDate: new Date()
+        orderCreationDate: new Date(),
+        orderStatus : 'Processing'
       }).subscribe(
         (res) => {
           console.log("Order Placed Successfully");
@@ -129,8 +124,6 @@ export class CheckOutComponent implements OnInit {
       )
   }
 
-  submitShippingForm() {
-    this.shippingDetails = this.shippingForm.value;
-  }
+  redeemPromo(){}
 
 }

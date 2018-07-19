@@ -30,8 +30,14 @@ export class MyOrdersComponent implements OnInit {
       },
       (err) => { }
     );
+  }
 
-
+  getProductDescription(selectedProducts : any){
+    let productDescription = "";
+    for(let i =0;i<selectedProducts.length;i++){
+      productDescription+=selectedProducts[i].data.title+" "
+    }
+    return productDescription;
   }
 
 }

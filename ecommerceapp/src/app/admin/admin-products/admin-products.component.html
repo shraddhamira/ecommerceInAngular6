@@ -48,7 +48,7 @@
           <td>Yes</td>
           <td>
             <a routerLink="/admin/products/new" [queryParams]="{productKey : item.key}">Edit</a>&nbsp;&nbsp;
-            <a routerLink="deleteProduct()">Delete</a>
+            <a class="btn btn-primary" role="button" (click)="deleteProduct(item.key)">Delete</a>
           </td>
         </tr>
       </tbody>

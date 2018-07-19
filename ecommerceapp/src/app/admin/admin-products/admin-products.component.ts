@@ -15,6 +15,10 @@ export class AdminProductsComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
+this.getProductData();
+  }
+
+  getProductData(){
     this.productService.getData().subscribe(
       (res) => {
         let jsonRecord = res.json();
@@ -44,4 +48,14 @@ export class AdminProductsComponent implements OnInit {
     )
   }
 
+  deleteProduct(key){
+    this.productService.deleteProduct(key).subscribe(
+      (res) => {
+        this.getProductData();
+      },
+      (err) => {
+        console.error(err);
+      }
+    )
+  }
 }

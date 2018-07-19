@@ -32,8 +32,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CategoryService } from './providers/category.service';
 import { CategoriesComponent } from './admin/categories/categories.component';
 import { CartService } from './providers/cart.service';
-import { ShippingDetailsComponent } from './check-out/shipping-details/shipping-details.component';
-import { PaymentDetailsComponent } from './check-out/payment-details/payment-details.component';
 import { OrderService } from './providers/order.service';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 //firebase end
@@ -52,9 +50,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     LoginComponent,
     OrderSucessComponent,
     NewProductComponent,
-    CategoriesComponent,
-    ShippingDetailsComponent,
-    PaymentDetailsComponent
+    CategoriesComponent
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule,

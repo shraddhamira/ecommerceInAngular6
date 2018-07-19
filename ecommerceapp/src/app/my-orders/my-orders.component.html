@@ -1,12 +1,49 @@
-<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngFor="let item of items | async">
-  <ngb-panel title="{{item.selectedProductsDetails.length}} Products">
-    <ng-template ngbPanelContent>
-      <p>Order Date : {{item.orderDate | date }}</p>
-      <p>Delivery Location : {{item.shippingDetails.city}}</p>
-      <p>Delivery Date : {{item.orderDate | date }}</p>
-
+<div class="row">
+  <div class="col-md-12 col-xs-12" *ngFor="let item of items | async">
+    <div class="border" style="padding:1rem">
+      <div class="d-inline-flex flex-md-row">
+        <p class="">Order Placed on {{item.orderCreationDate | date }}</p>
+      </div>
+      <div class="d-inline-flex flex-md-row-reverse">
+        <p class="">Delivery Location is {{item.shippingDetails.city}}</p>
+        <span class="badge badge-secondary">{{item.orderStatus}}</span>
+      </div>
       
+      <div class="row">
+        <div class="col-md-3" *ngFor="let product of item.selectedProductsDetails">
+          <div class="card mb-3">
+            <img class="card-img-top" src="{{product.data.imageUrl}}" alt="Card image cap">
+
+            <div class="card-body">
+              <div class="d-flex">
+                <h5 class="card-title">{{product.data.title}}</h5>
+                <p class="card-text">
+                  <span class="badge badge-info">{{product.data.deliveryStatus}}</span>
+                </p>
+              </div>
+              <p class="card-text">Arriving on {{item.orderDeliveryDate | date }}</p>
+              <a href="#" class="card-link">Return</a>
+              <a href="#" class="card-link">Review</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" >
+  <ngb-panel title="{{getProductDescription(item.selectedProductsDetails)}}, ">
+    <ng-template ngbPanelContent>
+      <div class="d-flex flex-row">
+        <p class="p-2">Delivery Location is {{item.shippingDetails.city}}</p>
+      </div>
+      
+      <div *ngFor="let product of item.selectedProductsDetails" class="border border-success p-3 mb-4 d-flex">
+        <h4 class="p-2 flex-grow-1">{{product.data.title}}</h4>
+        <p class="alert alert-success p-2" role="alert">{{product.data.deliveryStatus}}</p>
+        <p class="alert alert-info p-2 mx-2">Arriving on {{item.orderDeliveryDate | date }}</p>
+      </div>
     </ng-template>
-  </ngb-panel>
-</ngb-accordion>
-<br />
+  </ngb-panel>""
+</ngb-accordion>-->
+  </div>
+</div>

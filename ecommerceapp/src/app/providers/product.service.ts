@@ -17,6 +17,10 @@ export class ProductService {
         return this.http.get('https://ecommerce-14fab.firebaseio.com/products/'+key+'.json');
     }
 
+    deleteProduct(key){
+        return this.http.delete('https://ecommerce-14fab.firebaseio.com/products/'+key+'.json');
+    }
+
     updateProduct(key,data){
         return this.http.put('https://ecommerce-14fab.firebaseio.com/products/'+key+'.json',data);
     }
