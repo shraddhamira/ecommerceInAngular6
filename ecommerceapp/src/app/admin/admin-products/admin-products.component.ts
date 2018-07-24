@@ -22,10 +22,12 @@ this.getProductData();
     this.productService.getData().subscribe(
       (res) => {
         let jsonRecord = res.json();
+        console.log(jsonRecord);
         let keys = Object.keys(jsonRecord);
         this.products = keys.map(function (key) {
-          return { key: key, data: jsonRecord[key] }
-        })
+
+          return { key: key, data: jsonRecord[key]['payload'] }
+        });
       },
       (err) => {
         console.log(err);

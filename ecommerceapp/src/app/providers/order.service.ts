@@ -1,10 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Http } from '@angular/http';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestoreCollection, AngularFirestore } from "angularfire2/firestore";
+import { map } from 'rxjs/operators';
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class OrderService{
-    constructor(private http : Http, private db : AngularFireDatabase){}
+    private itemsCollection: AngularFirestoreCollection<any>;
+
+    constructor(private http : Http,private afs: AngularFirestore){}
 
     addNewOrder(data){
         return this.http.post('https://ecommerce-14fab.firebaseio.com/orders.json',data);
@@ -15,8 +20,10 @@ export class OrderService{
     }
 
     getOrdersByUser(userid){
-        return this.db.list("orders",ref => ref.orderByChild('uid').equalTo(userid)).valueChanges();
-        //,ref => ref.orderByChild('uid').equalTo(userid)
-        //return this.http.get('https://ecommerce-14fab.firebaseio.com/orders.json?orderBy="uid"');
+        return this.http.get('https://ecommerce-14fab.firebaseio.com/orders.json?uid='+userid);
+    }
+
+    getOrder(orderId){
+        return this.http.get('https://ecommerce-14fab.firebaseio.com/orders.json?key='+orderId);;
     }
 }

@@ -1,3 +1,36 @@
-<p>
-  admin-order works!
-</p>
+<div class="row">
+  <div class="col-md-12 col-xs-12" *ngFor="let item of items">
+    <div class="border mb-3" style="padding:1rem">
+      <div class="clearfix">
+        <div class="float-left">Order Placed on {{item.data.orderCreationDate | date }}</div>
+        <div class="float-right" *ngIf="item.data.shippingDetails">Delivery Location is {{item.data.shippingDetails.city}}</div>
+      </div>
+      <div class="clearfix mb-2">
+        <div class="float-left">
+          <a routerLink="edit" [queryParams]="{order : item.key}">Modify Details</a>
+        </div>
+        <div class="float-right">
+          <span class="badge" [ngClass]="{'badge-danger' : item.data.orderStatus=='Open', 'badge-warning' :item.data.orderStatus== 'Under Processing','badge-success': item.data.orderStatus=='Complete'}">
+            {{item.data.orderStatus}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3" *ngFor="let product of item.data.selectedProductsDetails">
+          <div class="card">
+            <div class="card-body">
+              <div class="clearfix">
+                <h5 class="card-title float-left">{{product.data.title}}</h5>
+                <div class="card-text float-right">
+                  <span class="badge" [ngClass]="{'badge-success':product.data.deliveryStatus=='Delivered','badge-info':product.data.deliveryStatus=='Shipped','badge-danger': product.data.deliveryStatus=='In Progress','badge-primary':product.data.deliveryStatus=='Out for Delivery'}">{{product.data.deliveryStatus}}</span>
+                </div>
+              </div>
+              <div class="card-text">Arriving on {{item.orderDeliveryDate | date }}</div>
+              <a href="#" class="card-link">Return</a>
+              <a href="#" class="card-link">Review</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

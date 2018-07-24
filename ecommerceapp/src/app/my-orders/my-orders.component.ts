@@ -11,31 +11,35 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 })
 export class MyOrdersComponent implements OnInit {
   userDetails: any = {};
-  items: Observable<any[]>;
-  private itemsCollection: AngularFirestoreCollection<any>;
+  items: any[]=[];
 
   constructor(private orderService: OrderService, private authService: AuthService,
-    private afs: AngularFirestore) {
-
-  }
+    private afs: AngularFirestore) { }
 
   ngOnInit() {
     this.authService.user$.subscribe(
       (res) => {
-
         let userDetails = res.toJSON();
         this.userDetails['id'] = userDetails['uid'];
         this.userDetails['email'] = userDetails['email'];
-        this.items=this.orderService.getOrdersByUser(this.userDetails['id']);
+        this.orderService.getOrdersByUser(this.userDetails['id']).subscribe(
+          (res) => {
+            let jsonrecord = res.json();
+            let keys = Object.keys(jsonrecord);
+            this.items = keys.map(function (key) {
+              return { key: key, data: jsonrecord[key] }
+            })
+          }
+        );
       },
       (err) => { }
     );
   }
 
-  getProductDescription(selectedProducts : any){
+  getProductDescription(selectedProducts: any) {
     let productDescription = "";
-    for(let i =0;i<selectedProducts.length;i++){
-      productDescription+=selectedProducts[i].data.title+" "
+    for (let i = 0; i < selectedProducts.length; i++) {
+      productDescription += selectedProducts[i].data.title + " "
     }
     return productDescription;
   }

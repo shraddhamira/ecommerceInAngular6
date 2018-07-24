@@ -59,46 +59,38 @@
             </div>
           </div>
         </div>
-
-        <!--<div class="mb-3">
-            <label for="username">Username</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">@</span>
-              </div>
-              <input type="text" class="form-control" id="username" placeholder="Username" required>
-              <div class="invalid-feedback" style="width: 100%;">
-                Your username is required.
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="email">Email
+                <span class="text-muted">(Optional)</span>
+              </label>
+              <input type="email" class="form-control" name="email" formControlName="email" placeholder="you@example.com">
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
               </div>
             </div>
-          </div>-->
-
-        <div class="mb-3">
-          <label for="email">Email
-            <span class="text-muted">(Optional)</span>
-          </label>
-          <input type="email" class="form-control" name="email" formControlName="email" placeholder="you@example.com">
-          <div class="invalid-feedback">
-            Please enter a valid email address for shipping updates.
           </div>
-        </div>
 
-        <div class="mb-3">
-          <label for="address">Address</label>
-          <input type="text" class="form-control" name="addressLine1" formControlName="addressLine1" placeholder="1234 Main St" required>
-          <div class="invalid-feedback">
-            Please enter your shipping address.
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="address">Address</label>
+              <input type="text" class="form-control" name="addressLine1" formControlName="addressLine1" placeholder="1234 Main St" required>
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
           </div>
-        </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="address2">Address 2
+                <span class="text-muted">(Optional)</span>
+              </label>
+              <input type="text" class="form-control" name="addressLine2" formControlName="addressLine2" placeholder="Apartment or suite  ">
+            </div>
+          </div>
 
-        <div class="mb-3">
-          <label for="address2">Address 2
-            <span class="text-muted">(Optional)</span>
-          </label>
-          <input type="text" class="form-control" name="addressLine2" formControlName="addressLine2" placeholder="Apartment or suite">
-        </div>
 
-        <div class="row">
           <div class="col-md-5 mb-3">
             <label for="country">Country</label>
             <select class="custom-select d-block w-100" name="country" formControlName="country" required>
@@ -111,7 +103,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="state">State</label>
-            <select class="custom-select d-block w-100" name="state" formControlName="state" required>
+            <select class="custom-select d-block w-100" name="state" formControlName="state">
               <option value="">Choose...</option>
               <option value="MAH">Maharastra</option>
               <option value="GOA">Goa</option>
@@ -128,21 +120,30 @@
               Zip code required.
             </div>
           </div>
-          <div class="mb-3">
+
+          <div class="col-md-12">
+            <div class="mb-3">
               <label for="address2">Any Special Delivery Instruction
                 <span class="text-muted">(Optional)</span>
               </label>
               <input type="text" class="form-control" name="instruction" formControlName="instruction" placeholder="Apartment or suite">
             </div>
+          </div>
         </div>
         <hr class="mb-4">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="same-address">
-          <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="save-info">
-          <label class="custom-control-label" for="save-info">Save this information for next time</label>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="same-address">
+              <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="save-info">
+              <label class="custom-control-label" for="save-info">Save this information for next time</label>
+            </div>
+          </div>
         </div>
       </form>
       <hr class="mb-4">
@@ -196,86 +197,47 @@
             </div>
           </div>
         </div>
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" (click)="submitOrderDetails()">Proceed with Payment</button>
       </form>
     </div>
   </div>
-
-  <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">&copy; 2017-2018 Company Name</p>
-    <ul class="list-inline">
-      <li class="list-inline-item">
-        <a href="#">Privacy</a>
-      </li>
-      <li class="list-inline-item">
-        <a href="#">Terms</a>
-      </li>
-      <li class="list-inline-item">
-        <a href="#">Support</a>
-      </li>
-    </ul>
-  </footer>
 </div>
-<!--<ngb-tabset #tab="ngbTabset">
-  <ngb-tab title="Confirm Products" id="tab-check-out">
-    <ng-template ngbTabContent>
-      <fieldset>
-        <legend>Please confirm below items in your cart</legend>
-        <table class="table" [mfData]="selectedProductsdata" #mf="mfDataTable" [mfRowsOnPage]="10">
-
-          <thead>
-            <tr>
-              <th style="width: 40%">
-                <mfDefaultSorter by="imageurl">Image</mfDefaultSorter>
-              </th>
-              <th style="width: 30%">
-                <mfDefaultSorter by="title">Product Name</mfDefaultSorter>
-              </th>
-              <th style="width: 10%">
-                <mfDefaultSorter by="price">Quantity</mfDefaultSorter>
-              </th>
-              <th style="width: 20%">
-                <mfDefaultSorter by="category">Price</mfDefaultSorter>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of selectedProductsdata">
-              <td>
-                <img src="{{item.data.imageUrl}}" width="150px" height="150px">
-              </td>
-              <td>{{item.data.title}}</td>
-              <td>1</td>
-              <td>{{item.data.price | currency : 'USD'}}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="4">
-                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-        <p>
-          <button class="btn btn-primary" (click)="tab.select('tab-shipping')">Next</button>
-        </p>
-      </fieldset>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab title="Shipping Details" id="tab-shipping">
-    <ng-template ngbTabContent>
-      <div class="row">
-        <div class="col-md-12">
-          <app-shipping-details [tabref]="tab" [form]="shippingForm" (submitForm)="retrieveShippingDetails($event)"></app-shipping-details>
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="form">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Order Creation Date</label>
+          <input class="form-control" name="orderCreationDate" formControlName="orderCreationDate">
         </div>
       </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab title="Payment Details" id="tab-payment">
-    <ng-template ngbTabContent>
-      <app-payment-details [form]="paymentForm" (submitForm)="retrievePaymentDetails($event)"></app-payment-details>
-    </ng-template>
-  </ngb-tab>
-</ngb-tabset>-->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Order Status</label>
+          <select formControlName="orderStatus" class="form-control">
+            <option value="Open">Open</option>
+            <option value="Under Processing">Under Processing</option>
+            <option value="Complete">Complete</option>
+          </select>
+        </div>
+      </div>
+      <div formArrayName="selectedProductsDetails" class="row">
+        <div *ngFor="let x of form.get('selectedProductsDetails').controls;let i=index;" class="col-md-3">
+          <div [formGroupName]="i" class="card">
+            <img class="card-img-top" width=150 height=150 src="{{orderDetails.selectedProductsDetails[i].imageUrl}}" alt="Card image cap">
+            <div class="card-title">
+              <h5>{{orderDetails.selectedProductsDetails[i].title}}</h5>
+            </div>
+            <div class="card-body">
+              <select formControlName="deliveryStatus" class="form-control" name="deliveryStatus">
+                <option value="Shipped">Shipped</option>
+                <option value="Out for Delivery">Out For Delivery</option>
+                <option value="Delivered">Delivered</option>
+                <option value="In Progress">In Porgress</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
