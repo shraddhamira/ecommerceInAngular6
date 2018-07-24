@@ -5,41 +5,6 @@
   </div>
 
   <div class="row">
-    <!--<div class="col-md-4 order-md-2 mb-4">
-      <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-muted">Your cart</span>
-        <span class="badge badge-secondary badge-pill">{{selectedProductsdata ? selectedProductsdata.length : 0}}</span>
-      </h4>
-      <ul class="list-group mb-3">
-        <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let item of selectedProductsdata">
-          <div>
-            <h6 class="my-0">{{item.data.title}}</h6>
-            <small class="text-muted">{{item.data.description}}</small>
-          </div>
-          <span class="text-muted">{{item.data.price}}</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between bg-light">
-          <div class="text-success">
-            <h6 class="my-0">Promo code</h6>
-            <small>EXAMPLECODE</small>
-          </div>
-          <span class="text-success">-$5</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Total (USD)</span>
-          <strong>{{totalPrice}}</strong>
-        </li>
-      </ul>
-
-      <form class="card p-2">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Promo code">
-          <div class="input-group-append">
-            <button type="submit" (click)="redeemPromo()" class="btn btn-secondary">Redeem</button>
-          </div>
-        </div>
-      </form>
-    </div>-->
     <div class="col-md-6 order-md-1">
       <h4 class="mb-3">Billing address</h4>
       <form [formGroup]="shippingForm">
@@ -224,7 +189,7 @@
       <div class="col-md-12">
           <h4 class="mb-3">Billing address</h4>
         <div formArrayName="selectedProductsDetails" class="row">
-          <div *ngFor="let x of form.get('selectedProductsDetails').controls;let i=index;" class="col-md-3">
+          <div *ngFor="let x of form.get('selectedProductsDetails')['controls'];let i=index;" class="col-md-3">
             <div [formGroupName]="i" class="card">
               <img class="card-img-top" width=150 height=150 src="{{orderDetails.selectedProductsDetails[i].imageUrl}}" alt="Card image cap">
               <h5 class="card-title">{{orderDetails.selectedProductsDetails[i].title}}</h5>

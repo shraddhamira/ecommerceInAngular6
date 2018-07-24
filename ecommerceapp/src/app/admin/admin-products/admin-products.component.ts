@@ -15,18 +15,17 @@ export class AdminProductsComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
-this.getProductData();
+    this.getProductData();
   }
 
-  getProductData(){
+  getProductData() {
     this.productService.getData().subscribe(
       (res) => {
         let jsonRecord = res.json();
         console.log(jsonRecord);
         let keys = Object.keys(jsonRecord);
         this.products = keys.map(function (key) {
-
-          return { key: key, data: jsonRecord[key]['payload'] }
+          return { key: key, data: jsonRecord[key] }
         });
       },
       (err) => {
@@ -39,9 +38,9 @@ this.getProductData();
     this.categoryService.getCategories().subscribe(
       (res) => {
         let jsonRecord = res.json();
-        let keys = Object.keys(res);
+        let keys = Object.keys(jsonRecord);
         this.categories = keys.map(function (key) {
-          return { key: key, data: res[key] }
+          return { key: key, data: jsonRecord[key] }
         })
       },
       (err) => {
@@ -50,7 +49,7 @@ this.getProductData();
     )
   }
 
-  deleteProduct(key){
+  deleteProduct(key) {
     this.productService.deleteProduct(key).subscribe(
       (res) => {
         this.getProductData();
