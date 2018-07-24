@@ -5,7 +5,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-4 order-md-2 mb-4">
+    <!--<div class="col-md-4 order-md-2 mb-4">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-muted">Your cart</span>
         <span class="badge badge-secondary badge-pill">{{selectedProductsdata ? selectedProductsdata.length : 0}}</span>
@@ -39,8 +39,8 @@
           </div>
         </div>
       </form>
-    </div>
-    <div class="col-md-8 order-md-1">
+    </div>-->
+    <div class="col-md-6 order-md-1">
       <h4 class="mb-3">Billing address</h4>
       <form [formGroup]="shippingForm">
         <div class="row">
@@ -147,7 +147,8 @@
         </div>
       </form>
       <hr class="mb-4">
-
+    </div>
+    <div class="col-md-6 order-md-1">
       <h4 class="mb-3">Payment</h4>
       <form [formGroup]="paymentForm">
         <div class="d-block my-3">
@@ -220,20 +221,26 @@
           </select>
         </div>
       </div>
-      <div formArrayName="selectedProductsDetails" class="row">
-        <div *ngFor="let x of form.get('selectedProductsDetails').controls;let i=index;" class="col-md-3">
-          <div [formGroupName]="i" class="card">
-            <img class="card-img-top" width=150 height=150 src="{{orderDetails.selectedProductsDetails[i].imageUrl}}" alt="Card image cap">
-            <div class="card-title">
-              <h5>{{orderDetails.selectedProductsDetails[i].title}}</h5>
-            </div>
-            <div class="card-body">
-              <select formControlName="deliveryStatus" class="form-control" name="deliveryStatus">
-                <option value="Shipped">Shipped</option>
-                <option value="Out for Delivery">Out For Delivery</option>
-                <option value="Delivered">Delivered</option>
-                <option value="In Progress">In Porgress</option>
-              </select>
+      <div class="col-md-12">
+          <h4 class="mb-3">Billing address</h4>
+        <div formArrayName="selectedProductsDetails" class="row">
+          <div *ngFor="let x of form.get('selectedProductsDetails').controls;let i=index;" class="col-md-3">
+            <div [formGroupName]="i" class="card">
+              <img class="card-img-top" width=150 height=150 src="{{orderDetails.selectedProductsDetails[i].imageUrl}}" alt="Card image cap">
+              <h5 class="card-title">{{orderDetails.selectedProductsDetails[i].title}}</h5>
+              <div class="card-body">
+                <div class="form-group">
+                  <select formControlName="deliveryStatus" class="form-control" name="deliveryStatus">
+                    <option value="Shipped">Shipped</option>
+                    <option value="Out for Delivery">Out For Delivery</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="In Progress">In Porgress</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <button (click)="updateDetails()" class="btn btn-block btn-primary">Update</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
