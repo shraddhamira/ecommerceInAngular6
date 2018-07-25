@@ -1,50 +1,29 @@
+<div class="text-center">
+  <h2 class="pageTitle">My Orders</h2>
+  <p class="lead shopping-quotes">Go green and help save the environment.</p>
+</div>
 <div class="row">
-  <div class="col-md-12 col-xs-12" *ngFor="let item of items">
-    <div class="border mb-3" style="padding:1rem">
-      <div class="clearfix">
-        <p class="float-left">Order Placed on {{item.data.orderCreationDate | date }}</p>,
-        <p class="float-right">Delivery Location is {{item.data.shippingDetails.city}}</p>
-      </div>
-      <div class="clearfix mb-2">
-        <p class="float-right">
-          <span class="badge" [ngClass]="{'badge-danger' : item.data.orderStatus=='Open', 'badge-warning' :item.data.orderStatus== 'Under Processing','badge-success': item.data.orderStatus=='Complete'}">
-            {{item.data.orderStatus}}</span>
+  <div class="col-md-6 col-xs-12" *ngFor="let item of items">
+    <div class="card flex-md-row mb-4 box-shadow h-md-250" *ngFor="let product of item.data.selectedProductsDetails">
+      <div class="card-body d-flex flex-column align-items-start">
+        <div>
+          <h4 class="mb-0 float-left">
+            <a class="text-dark" href="#">{{product.data.title}}</a>
+          </h4>
+          <strong class="float-right ml-2 mb-2" [ngClass]="getDeliveryStatus(product.data.deliveryStatus,item.data.orderStatus)">{{product.data.deliveryStatus}}</strong>
+        </div>
+        <div class="mb-1 text-muted">Order Tracking Id : #{{item.key }}</div>
+        <div class="mb-1 text-muted">Order Placed on {{item.data.orderCreationDate | date }}</div>
+        <div class="mb-1 text-muted">Delivery Location is {{item.data.shippingDetails.city}}</div>
+        <div class="mb-1 text-muted">Arriving on {{item.data.orderDeliveryDate | date }}</div>
+
+        <p class="card-text mb-auto">
+          <a class="card-link" href="#">Return</a>
+          <a class="card-link" href="#">Review</a>
         </p>
       </div>
-      <div class="row">
-        <div class="col-md-3" *ngFor="let product of item.data.selectedProductsDetails">
-          <div class="card mb-3">
-            <img class="card-img-top" src="{{product.data.imageUrl}}" alt="Card image cap">
-            <div class="card-body">
-              <div class="clearfix">
-                <h5 class="card-title float-left">{{product.data.title}}</h5>
-                <p class="card-text float-right">
-                  <span class="badge" [ngClass]="{'badge-success':product.data.deliveryStatus=='Delivered','badge-info':product.data.deliveryStatus=='Shipped','badge-danger': product.data.deliveryStatus=='In Progress','badge-primary':product.data.deliveryStatus=='Out for Delivery'}">{{product.data.deliveryStatus}}</span>
-                </p>
-              </div>
-              <p class="card-text">Arriving on {{item.data.orderDeliveryDate | date }}</p>
-              <a href="#" class="card-link">Return</a>
-              <a href="#" class="card-link">Review</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <img class="card-img-right flex-auto d-none d-md-block d-sm-inline" data-src="{{product.data.imageUrl}}" alt="Image not available"
+        style="width:200px;height:200px">
     </div>
-    <!--<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" >
-  <ngb-panel title="{{getProductDescription(item.selectedProductsDetails)}}, ">
-    <ng-template ngbPanelContent>
-      <div class="d-flex flex-row">
-        <p class="p-2">Delivery Location is {{item.data.shippingDetails.city}}</p>
-      </div>
-      
-      <div *ngFor="let product of item.selectedProductsDetails" class="border border-success p-3 mb-4 d-flex">
-        <h4 class="p-2 flex-grow-1">{{product.data.title}}</h4>
-        <p class="alert alert-success p-2" role="alert">{{product.data.deliveryStatus}}</p>
-        <p class="alert alert-info p-2 mx-2">Arriving on {{item.data.orderDeliveryDate | date }}</p>
-      </div>
-    </ng-template>
-  </ngb-panel>""
-</ngb-accordion>-->
   </div>
 </div>

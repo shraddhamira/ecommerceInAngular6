@@ -1,0 +1,33 @@
+.mouse-pointer {
+  cursor: pointer
+}
+
+/*
+  .pt-15{
+    padding-top: 15px;
+  }
+
+  .mb-15{
+    margin-bottom: 15px;
+  }
+
+  .card{
+    margin-bottom: 15px;
+  }
+
+  .tabTitle {
+    font-size:25px;
+  }
+*/
+
+.mt-12 {
+  margin-top: 12px;
+}
+
+.pageTitle {
+  color : green;
+}
+
+.shopping-quotes {
+  color : green
+}

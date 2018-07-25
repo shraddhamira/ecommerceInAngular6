@@ -11,7 +11,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 })
 export class MyOrdersComponent implements OnInit {
   userDetails: any = {};
-  items: any[]=[];
+  items: any[] = [];
 
   constructor(private orderService: OrderService, private authService: AuthService,
     private afs: AngularFirestore) { }
@@ -44,4 +44,16 @@ export class MyOrdersComponent implements OnInit {
     return productDescription;
   }
 
+  getDeliveryStatus(deliveryStatus, orderStatus) {
+    if(orderStatus=='Cancelled')
+    return 'text-secondary';
+    else if (deliveryStatus == 'Shipped' && orderStatus!='Cancelled')
+      return 'text-primary';
+    else if (deliveryStatus == 'Out for Delivery' && orderStatus!='Cancelled')
+      return 'text-danger';
+    else if (deliveryStatus == 'Delivered' && orderStatus!='Cancelled')
+      return 'text-success';
+    else if (deliveryStatus == 'Delivered' && orderStatus!='Cancelled')
+      return 'text-success';
+  }
 }

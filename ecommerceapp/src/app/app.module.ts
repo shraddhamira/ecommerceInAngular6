@@ -35,6 +35,7 @@ import { CartService } from './providers/cart.service';
 import { OrderService } from './providers/order.service';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { NewOrderComponent } from './admin/new-order/new-order.component';
+import { UsersComponent } from './admin/users/users.component';
 //firebase end
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { NewOrderComponent } from './admin/new-order/new-order.component';
     OrderSucessComponent,
     NewProductComponent,
     CategoriesComponent,
-    NewOrderComponent
+    NewOrderComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule,
@@ -70,6 +72,7 @@ import { NewOrderComponent } from './admin/new-order/new-order.component';
     { path: 'admin/orders', component: AdminOrderComponent },
     { path: 'admin/orders/edit', component: NewOrderComponent },
     { path: 'admin/categories', component: CategoriesComponent },
+    { path: 'admin/users', component: UsersComponent },
     { path: 'login', component: LoginComponent },
     { path: 'cart', component: ShoppingCartComponent },
     { path: 'check-out', component: CheckOutComponent }]),

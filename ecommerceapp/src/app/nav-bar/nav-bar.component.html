@@ -1,4 +1,4 @@
-<header class="navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar">
+<header class="navbar navbar-expand navbar-light bg-light flex-column flex-md-row bd-navbar">
   <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="Bootstrap">
     <svg class="d-block" width="36" height="36" viewBox="0 0 612 612" xmlns="http://www.w3.org/2000/svg" focusable="false">
       <title>Bootstrap</title>
@@ -30,13 +30,20 @@
         <a class="nav-link" routerLink="/cart">Go to Cart</a>
       </li>
 
-      <li *ngIf="auth.user$ | async as user" ngbDropdown class="nav-item dropdown">
-        <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.displayName}}</a>
+      <li class="nav-item dropdown" ngbDropdown>
+        <a ngbDropdownToggle class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" routerLink="/my-orders">My Orders</a>
           <a class="dropdown-item" routerLink="/admin/orders">Manage Orders</a>
           <a class="dropdown-item" routerLink="/admin/products">Manage Products</a>
           <a class="dropdown-item" routerLink="/admin/categories">Manage Product Categories</a>
+          <a class="dropdown-item" routerLink="/admin/users">Manage Users</a>
+        </div>
+      </li>
+      <li *ngIf="auth.user$ | async as user" ngbDropdown class="nav-item dropdown">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.displayName}}</a>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+          <a class="dropdown-item" routerLink="/my-orders">Update Profile</a>
           <a class="dropdown-item" (click)="logout()">Logout</a>
         </div>
       </li>
