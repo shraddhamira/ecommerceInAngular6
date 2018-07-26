@@ -9,10 +9,11 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@ang
   styleUrls: ['./new-order.component.css']
 })
 export class NewOrderComponent implements OnInit {
+  editMode: boolean = false;
   orderKey: string;
-  orderDetails :any ={};
-  shippingForm : FormGroup;
-  paymentForm : FormGroup;
+  orderDetails: any = {};
+  shippingForm: FormGroup;
+  paymentForm: FormGroup;
   form: FormGroup;
   constructor(private routeParam: ActivatedRoute, private orderService: OrderService, private formBuilder: FormBuilder) { }
 
@@ -28,7 +29,7 @@ export class NewOrderComponent implements OnInit {
     this.shippingForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
-      email : new FormControl('',[Validators.required]),
+      email: new FormControl('', [Validators.required]),
       addressLine1: new FormControl('', [Validators.required]),
       addressLine2: new FormControl(''),
       country: new FormControl('IND'),
@@ -36,7 +37,7 @@ export class NewOrderComponent implements OnInit {
       city: new FormControl('', [Validators.required]),
       state: new FormControl('MAH', [Validators.required]),
       zip: new FormControl('', [Validators.required]),
-      instruction : new FormControl('')
+      instruction: new FormControl('')
     });
 
     this.paymentForm = new FormGroup({
@@ -54,7 +55,7 @@ export class NewOrderComponent implements OnInit {
             (res) => {
               let jsonRecord = res.json();
               jsonRecord = jsonRecord[this.orderKey];
-              let selectedProductsDetailsArray :any []=[];
+              let selectedProductsDetailsArray: any[] = [];
               var numberOfProducts = jsonRecord['selectedProductsDetails'] && jsonRecord['selectedProductsDetails'].length ? jsonRecord['selectedProductsDetails'].length : 0;
               for (var i = 0; i < numberOfProducts; i++) {
                 var productDetails = jsonRecord['selectedProductsDetails'][i];
@@ -97,5 +98,16 @@ export class NewOrderComponent implements OnInit {
   addProductForm() {
     let control = this.form.get('selectedProductsDetails') as FormArray;
     control.push(this.createProductForm());
+  }
+
+  getDeliveryStatus(orderStatus) {
+    if (orderStatus == 'Cancelled')
+      return 'text-secondary';
+    else if (orderStatus == 'Open')
+      return 'text-danger';
+  }
+
+  editOrder() {
+    //open modal popup
   }
 }
