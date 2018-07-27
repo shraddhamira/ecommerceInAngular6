@@ -25,9 +25,16 @@
 }
 
 .pageTitle {
-  color : green;
+  color: green;
 }
 
 .shopping-quotes {
-  color : green
+  color: green
+}
+
+.clickableLink {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
 }

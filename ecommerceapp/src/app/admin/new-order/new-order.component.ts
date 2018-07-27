@@ -105,7 +105,21 @@ export class NewOrderComponent implements OnInit {
       return 'text-secondary';
     else if (orderStatus == 'Open')
       return 'text-danger';
+    else if (orderStatus == 'Complete')
+      return 'text-success';
   }
+
+  getProductDeliveryStatus(deliveryStatus) {
+    if (deliveryStatus == 'Shipped')
+      return 'text-primary';
+    else if (deliveryStatus == 'Out for Delivery')
+      return 'text-danger';
+    else if (deliveryStatus == 'Delivered')
+      return 'text-success';
+    else if (deliveryStatus == 'Delivered')
+      return 'text-success';
+  }
+
 
   editOrder() {
     //open modal popup
