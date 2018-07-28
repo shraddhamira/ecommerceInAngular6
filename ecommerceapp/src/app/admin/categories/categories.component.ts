@@ -11,7 +11,7 @@ export class CategoriesComponent implements OnInit {
 
   frm: FormGroup;
   categories: any[] = [];
-
+categoryKey : string;
   constructor(private categoryService: CategoryService) {
     this.frm = new FormGroup({
       description: new FormControl('', [Validators.required])
@@ -60,4 +60,22 @@ export class CategoriesComponent implements OnInit {
     )
   }
 
+  editCategory(key, description){
+    this.categoryKey = key;
+    this.frm.patchValue({ description: description });
+  }
+
+  updateCategory(){
+    this.categoryService.updateCategory(this.categoryKey,this.frm.value).subscribe(
+      (res) => {
+        this.getCategories();
+        this.categoryKey = '';
+        this.frm.patchValue({ description: '' });
+      },
+      (err) => {
+        console.error(err);
+      }
+    )
+  }
 }
+

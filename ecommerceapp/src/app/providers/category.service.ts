@@ -15,4 +15,8 @@ export class CategoryService {
     deleteCategory(key){
         return this.http.delete('https://ecommerce-14fab.firebaseio.com/categories/'+key+'.json');
     }
+
+    updateCategory(key,data){
+        return this.http.put('https://ecommerce-14fab.firebaseio.com/categories/'+key+'.json',data);
+    }
 }

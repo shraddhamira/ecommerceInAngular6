@@ -1,20 +1,44 @@
 <div class="text-center">
   <h2 class="pageTitle">Manage Product Categories</h2>
-  <p class="lead shopping-quotes">Verify and update Product category details here.</p>
+  <p class="lead shopping-quotes">Create and update Product categories here.</p>
 </div>
+<hr />
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
     <form [formGroup]="frm">
       <div class="form-group">
-        <label>Category Description</label>
-        <input class="form-control" type="text" formControlName="description">
+        <input class="form-control" type="text" formControlName="description" placeholder="Category Description">
       </div>
     </form>
   </div>
+  <div class="col-md-4">
+    <div class="form-group">
+      <button *ngIf="!categoryKey" class="btn btn-primary" (click)="addCategory()">Create</button>
+      <button *ngIf="categoryKey" class="btn btn-primary" (click)="updateCategory()">Update</button>
+    </div>
+  </div>
 </div>
-<p>
-  <a class="btn btn-primary" (click)="addCategory()">Add Product Category</a>
-</p>
+<hr />
+<div class="row">
+  <div class="col-md-4 col-xs-12" *ngFor="let item of categories">
+    <div class="card flex-md-row mb-4 box-shadow h-md-250">
+      <div class="card-body d-flex flex-column align-items-start">
+        <div>
+          <h5 class="mb-0 float-left">
+            <a class="text-dark" href="#">{{item.data.description}}</a>
+          </h5>
+        </div>
+        <p class="card-text mb-auto">
+          <a (click)="editCategory(item.key,item.data.description)" class="card-link" href="javascript:void(0)">Modify</a>
+          <a (click)="deleteCategory(item.key)" class="card-link" href="javascript:void(0)">Remove</a>
+        </p>
+      </div>
+      <!--<img class="card-img-right flex-auto d-none d-md-block d-sm-inline" data-src="{{product.data.imageUrl}}" alt="Image not available"
+        style="width:200px;height:200px">-->
+    </div>
+  </div>
+</div>
+<!--
 <table class="table table-striped" [mfData]="categories" #mf="mfDataTable" [mfRowsOnPage]="5">
   <thead>
     <tr>
@@ -30,7 +54,7 @@
     <tr *ngFor="let item of categories">
       <td>{{item.data.description}}</td>
       <td>
-        <a (click)="deleteCategory(item.key)" class="mouse-pointer">Delete</a>&nbsp;&nbsp;
+        <a  class="mouse-pointer">Delete</a>&nbsp;&nbsp;
         <a (click)="editCategory()" class="mouse-pointer">Edit</a>
       </td>
     </tr>
@@ -42,4 +66,4 @@
       </td>
     </tr>
   </tfoot>
-</table>
+</table>-->
