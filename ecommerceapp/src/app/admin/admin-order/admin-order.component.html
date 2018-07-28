@@ -12,11 +12,11 @@
           </h4>
           <strong class="float-right ml-2 mb-2" [ngClass]="getDeliveryStatus(product.data.deliveryStatus)">{{product.data.deliveryStatus}}</strong>
         </div>
-        <div class="mb-1 text-muted">Order Tracking Id : #{{item.key }}</div>
-        <div class="mb-1 text-muted">Order Placed on {{item.data.orderCreationDate | date }}</div>
+        <div class="mb-0 text-muted">{{item.data.shippingDetails.firstName}} {{item.data.shippingDetails.lastName}}</div>
+        <div class="mb-0 text-muted">Order Tracking Id : #{{item.key }}</div>
+        <div class="mb-0 text-muted">Order Placed on {{item.data.orderCreationDate | date }}</div>
         <div class="mb-1 text-muted">Delivery Location is {{item.data.shippingDetails.city}}</div>
-        <div class="mb-1 text-muted">Arriving on {{item.data.orderDeliveryDate | date }}</div>
-
+        
         <p class="card-text mb-auto">
           <a routerLink="edit" [queryParams]="{order : item.key}">Modify Details</a>
         </p>
