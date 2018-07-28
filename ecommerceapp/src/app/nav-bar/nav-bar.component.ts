@@ -9,8 +9,9 @@ import { CartService } from '../providers/cart.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  constructor(public auth: AuthService,private cartService:CartService ) { }
+  constructor(public auth: AuthService, private cartService: CartService) { }
   cartData: any[];
+  toggleMenu: boolean;
   ngOnInit() {
   }
 
@@ -27,7 +28,7 @@ export class NavBarComponent implements OnInit {
         this.cartData = keys.map(function (key) {
           return { key: key, value: jsonRecord[key] }
         });
-       // this.getAllProductsData();
+        // this.getAllProductsData();
       } else {
 
       }
@@ -36,4 +37,10 @@ export class NavBarComponent implements OnInit {
     })
   }
 
+  toggleMenubar() {
+    if (this.toggleMenu)
+      this.toggleMenu = false;
+    else
+      this.toggleMenu = true;
+  }
 }
