@@ -37,7 +37,7 @@ export class CheckOutComponent implements OnInit {
     this.shippingForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
-      email : new FormControl(this.userDetails['email'],[Validators.required]),
+      email: new FormControl(this.userDetails['email'], [Validators.required]),
       addressLine1: new FormControl('', [Validators.required]),
       addressLine2: new FormControl(''),
       country: new FormControl('IND'),
@@ -45,7 +45,7 @@ export class CheckOutComponent implements OnInit {
       city: new FormControl('', [Validators.required]),
       state: new FormControl('MAH', [Validators.required]),
       zip: new FormControl('', [Validators.required]),
-      instruction : new FormControl('')
+      instruction: new FormControl('')
     });
 
     this.paymentForm = new FormGroup({
@@ -85,10 +85,15 @@ export class CheckOutComponent implements OnInit {
         let totalPrice = this.totalPrice;
         this.selectedProductsdata = this.productsData.filter(product => {
           return selectedProductsArray.find(function (element) {
-            totalPrice += product.data.price;
             return element == product.key;
           });
         })
+
+        this.totalPrice = this.productsData.filter(product => {
+          return selectedProductsArray.find(element => {
+            return element == product.key;
+          });
+        }).reduce((total, product) => parseInt(total) + parseInt(product.data.price), 0);
       },
       (err) => {
 
@@ -105,14 +110,28 @@ export class CheckOutComponent implements OnInit {
         console.error(err);
       }
     );
+    let finalProducts: any[] = [];
+    this.selectedProductsdata.forEach(function (product, index) {
+      let productData = product['data'];
+      let productKey = product['key'];
+      product = productData;
+      product['key'] = productKey;
+      product['deliveryStatus'] = "In Progress";
+      product['tentativeDeliveryDate'] = new Date().setDate(new Date().getDate()+3);
+      finalProducts.push(product);
+    });
     this.orderService.addNewOrder(
       {
         uid: this.userDetails['id'],
-        selectedProductsDetails: this.selectedProductsdata,
+        selectedProductsDetails: finalProducts,
         shippingDetails: this.shippingForm.value,
         paymentDetails: this.paymentForm.value,
         orderCreationDate: new Date(),
-        orderStatus : 'Processing'
+        orderStatus: 'In Progress',
+        totalAmount: this.totalPrice,
+        isPromoApplied: true,
+        promocode: 'DUMMY50',
+        trackingId: new Date().getTime()
       }).subscribe(
         (res) => {
           console.log("Order Placed Successfully");
@@ -124,6 +143,6 @@ export class CheckOutComponent implements OnInit {
       )
   }
 
-  redeemPromo(){}
+  redeemPromo() { }
 
 }

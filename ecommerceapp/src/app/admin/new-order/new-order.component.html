@@ -16,7 +16,7 @@
             <div class="card-text">
               <p class="mb-1">{{orderDetails.shippingDetails.firstName}} {{orderDetails.shippingDetails.lastName}}</p>
               <p class="mb-1">{{orderDetails.shippingDetails.addressLine1}}, {{orderDetails.shippingDetails.addressLine2}}, {{orderDetails.shippingDetails.landmark}}</p>
-              <p class="mb-1">{{orderDetails.shippingDetails.city}}, {{orderDetails.shippingDetails.state}} - {{orderDetails.shippingDetails.zipCode}}</p>
+              <p class="mb-1">{{orderDetails.shippingDetails.city}}, {{orderDetails.shippingDetails.state}} - {{orderDetails.shippingDetails.zip}}</p>
               <p class="mb-0">{{orderDetails.shippingDetails.contactNumber}}</p>
             </div>
           </div>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="card-text">
-              <p class="mb-1">Order Tracking Id : #{{orderDetails.key }}</p>
+              <p class="mb-1">Order Tracking Id : #{{orderDetails.trackingId }}</p>
               <p class="mb-1">Order Placed on {{orderDetails.orderCreationDate | date }}</p>
               <div class="row">
                 <div class="col-md-6">
@@ -50,11 +50,11 @@
           <div class="col-md-4 col-sm-12 d-flex flex-column">
             <div>
               <h5 class="mb-2 float-left">
-                <a class="text-dark" href="#">Total Amount : </a>
+                <a class="text-dark" href="#">Total Amount : {{orderDetails.totalAmount}}</a>
               </h5>
             </div>
             <div class="card-text">
-              <div class="mb-1">Promo Applied : ABDC</div>
+              <div class="mb-1" *ngIf="orderDetails.isPromoApplied">Promo Applied : {{orderDetails.promocode}}</div>
               <div class="mb-1">Amount Saved : 119.00</div>
               <div class="mb-1">Number of Items : {{orderDetails.selectedProductsDetails.length}}</div>
             </div>

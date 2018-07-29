@@ -25,10 +25,13 @@ export class MyOrdersComponent implements OnInit {
         this.orderService.getOrdersByUser(this.userDetails['id']).subscribe(
           (res) => {
             let jsonrecord = res.json();
-            let keys = Object.keys(jsonrecord);
-            this.items = keys.map(function (key) {
-              return { key: key, data: jsonrecord[key] }
-            })
+            if (jsonrecord) {
+              console.log(jsonrecord);
+              let keys = Object.keys(jsonrecord);
+              this.items = keys.map(function (key) {
+                return { key: key, data: jsonrecord[key] }
+              })
+            }
           }
         );
       },
@@ -45,15 +48,15 @@ export class MyOrdersComponent implements OnInit {
   }
 
   getDeliveryStatus(deliveryStatus, orderStatus) {
-    if(orderStatus=='Cancelled')
-    return 'text-secondary';
-    else if (deliveryStatus == 'Shipped' && orderStatus!='Cancelled')
+    if (orderStatus == 'Cancelled')
+      return 'text-secondary';
+    else if (deliveryStatus == 'Shipped' && orderStatus != 'Cancelled')
       return 'text-primary';
-    else if (deliveryStatus == 'Out for Delivery' && orderStatus!='Cancelled')
+    else if (deliveryStatus == 'Out for Delivery' && orderStatus != 'Cancelled')
       return 'text-danger';
-    else if (deliveryStatus == 'Delivered' && orderStatus!='Cancelled')
+    else if (deliveryStatus == 'Delivered' && orderStatus != 'Cancelled')
       return 'text-success';
-    else if (deliveryStatus == 'Delivered' && orderStatus!='Cancelled')
+    else if (deliveryStatus == 'Delivered' && orderStatus != 'Cancelled')
       return 'text-success';
   }
 }

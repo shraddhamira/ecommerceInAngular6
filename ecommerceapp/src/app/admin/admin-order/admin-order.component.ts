@@ -26,10 +26,12 @@ export class AdminOrderComponent implements OnInit {
     this.orderService.getAllOrders().subscribe(
       (res) => {
         let jsonRecord = res.json();
-        let keys = Object.keys(jsonRecord);
-        this.items = keys.map(function (key) {
-          return { key: key, data: jsonRecord[key] }
-        })
+        if (jsonRecord) {
+          let keys = Object.keys(jsonRecord);
+          this.items = keys.map(function (key) {
+            return { key: key, data: jsonRecord[key] }
+          })
+        }
       },
       (err) => {
         console.log(err);
@@ -53,7 +55,7 @@ export class AdminOrderComponent implements OnInit {
       return 'text-danger';
     else if (deliveryStatus == 'Delivered' && orderStatus != 'Cancelled')
       return 'text-success';
-    else if (deliveryStatus == 'Delivered' && orderStatus != 'Cancelled')
-      return 'text-success';
+    else if (deliveryStatus == 'In Progress' && orderStatus != 'Cancelled')
+      return 'text-warning';
   }
 }

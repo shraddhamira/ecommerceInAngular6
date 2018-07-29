@@ -25,16 +25,16 @@
       </div>
     </form>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-3">
     <div class="card-group">
       <div class="card" *ngIf="frm && frm.get('title') && frm.get('title').value">
-        <img class="card-img-top" *ngIf="frm && frm.get('imageUrl') && frm.get('imageUrl').value" src="{{frm.get('imageUrl').value}}" alt="Card image cap">
+        <img class="card-img-top" *ngIf="frm && frm.get('imageUrl') && frm.get('imageUrl').value" src="{{frm.get('imageUrl').value}}" alt="Card image cap" style="height:200px;width:200px">
         <div class="card-body">
           <h3 class="card-title">{{ frm.get('title').value}}</h3>
           <p class="card-text">{{ frm.get('price').value | currency : 'USD'}}</p>
           <div class="card-text">
             <div *ngFor="let cat of categories">
-              <p *ngIf="frm.get('category').value==cat.key">{{cat.data.name}}</p>
+              <p *ngIf="frm.get('category').value==cat.key">{{cat.data.description}}</p>
             </div>
           </div>
         </div>

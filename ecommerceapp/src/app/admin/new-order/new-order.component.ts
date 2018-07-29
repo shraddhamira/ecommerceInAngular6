@@ -58,17 +58,8 @@ export class NewOrderComponent implements OnInit {
               let selectedProductsDetailsArray: any[] = [];
               var numberOfProducts = jsonRecord['selectedProductsDetails'] && jsonRecord['selectedProductsDetails'].length ? jsonRecord['selectedProductsDetails'].length : 0;
               for (var i = 0; i < numberOfProducts; i++) {
-                var productDetails = jsonRecord['selectedProductsDetails'][i];
-                var productDataKeys = Object.keys(productDetails.data);
-                let finalProductDetails = new Object();
-                for (var j = 0; j < productDataKeys.length; j++) {
-                  finalProductDetails[productDataKeys[j]] = productDetails.data[productDataKeys[j]]
-                }
-                finalProductDetails['key'] = productDetails.key;
-                selectedProductsDetailsArray.push(finalProductDetails);
                 this.addProductForm();
               }
-              jsonRecord['selectedProductsDetails'] = selectedProductsDetailsArray;
               this.form.patchValue(jsonRecord);
               this.paymentForm.patchValue(jsonRecord['paymentDetails']);
               this.shippingForm.patchValue(jsonRecord['shippingDetails']);
@@ -107,6 +98,8 @@ export class NewOrderComponent implements OnInit {
       return 'text-danger';
     else if (orderStatus == 'Complete')
       return 'text-success';
+    else if (orderStatus == 'In Progress')
+      return 'text-warning';
   }
 
   getProductDeliveryStatus(deliveryStatus) {
@@ -114,8 +107,8 @@ export class NewOrderComponent implements OnInit {
       return 'text-primary';
     else if (deliveryStatus == 'Out for Delivery')
       return 'text-danger';
-    else if (deliveryStatus == 'Delivered')
-      return 'text-success';
+    else if (deliveryStatus == 'In Progress')
+      return 'text-warning';
     else if (deliveryStatus == 'Delivered')
       return 'text-success';
   }
