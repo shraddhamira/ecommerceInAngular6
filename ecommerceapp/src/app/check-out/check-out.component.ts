@@ -28,9 +28,13 @@ export class CheckOutComponent implements OnInit {
     this.getCurrentCartDetails();
     this.authService.user$.subscribe(
       ((res) => {
-        let userDetails = res.toJSON();
-        this.userDetails['id'] = userDetails['uid'];
-        this.userDetails['email'] = userDetails['email'];
+        if (res) {
+          let userDetails = res.toJSON();
+          this.userDetails['id'] = userDetails['uid'];
+          this.userDetails['email'] = userDetails['email'];
+        } else {
+          this.router.navigate(['login']);
+        }
       })
     );
 
@@ -60,10 +64,7 @@ export class CheckOutComponent implements OnInit {
     this.cartService.getExistingProducts().subscribe((res) => {
       let jsonRecord = res.json();
       if (jsonRecord) {
-        let keys = Object.keys(jsonRecord);
-        this.cartData = keys.map(function (key) {
-          return { key: key, value: jsonRecord[key] }
-        });
+        this.cartData = jsonRecord.items;
         this.getAllProductsData();
       } else {
         console.log("There are no items in your cart");
@@ -74,7 +75,7 @@ export class CheckOutComponent implements OnInit {
   }
 
   getAllProductsData() {
-    let selectedProductsArray = this.cartData[0].value;
+    let selectedProductsArray = this.cartData;
     this.productService.getData().subscribe(
       (res) => {
         let jsonRecord = res.json();
@@ -85,15 +86,16 @@ export class CheckOutComponent implements OnInit {
         let totalPrice = this.totalPrice;
         this.selectedProductsdata = this.productsData.filter(product => {
           return selectedProductsArray.find(function (element) {
-            return element == product.key;
+            product['data']['quantity'] = element.quantity;
+            return element.product == product.key;
           });
         })
 
         this.totalPrice = this.productsData.filter(product => {
           return selectedProductsArray.find(element => {
-            return element == product.key;
+            return element.product == product.key;
           });
-        }).reduce((total, product) => parseInt(total) + parseInt(product.data.price), 0);
+        }).reduce((total, product)=> parseInt(total) + (parseInt(product.data.price) * parseInt(product.data.quantity)),0);
       },
       (err) => {
 
@@ -117,7 +119,7 @@ export class CheckOutComponent implements OnInit {
       product = productData;
       product['key'] = productKey;
       product['deliveryStatus'] = "In Progress";
-      product['tentativeDeliveryDate'] = new Date().setDate(new Date().getDate()+3);
+      product['tentativeDeliveryDate'] = new Date().setDate(new Date().getDate() + 3);
       finalProducts.push(product);
     });
     this.orderService.addNewOrder(

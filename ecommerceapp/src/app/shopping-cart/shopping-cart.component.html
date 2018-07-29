@@ -8,17 +8,25 @@
       <a class="btn btn-primary mb-2" routerLink="/check-out">Place Order</a>
     </div>
   </div>
-  <div class="col-md-6 col-xs-12" *ngFor="let product of selectedProductsdata">
+  <div class="col-md-6 col-xs-12" *ngFor="let product of selectedProductsdata;let i = index;">
     <div class="card flex-md-row mb-4 box-shadow h-md-250" *ngIf="product">
       <div class="card-body d-flex flex-column align-items-start">
         <div>
-          <h4 class="mb-0 float-left">
+          <h4 class="mb-2 float-left">
             <a class="text-dark" href="#">{{product.data.title}}</a>
           </h4>
         </div>
         <div class="card-text mb-auto">
-          <div class="mb-1 text-muted">Price : {{product.data.price}}</div>
-          <a class="card-link" routerLink="javasrcipt:void(0)" (click)="removeFromCart(item.key)">Remove From Cart</button>
+          <div class="mb-1">Price is {{product.data.price}}</div>
+          
+          <div class="mb-2">
+            Quantity <div class="btn-group" role="group">
+              <button type="button" class="btn btn-secondary" (click)="decreaseQuantity(product.key,i)">-</button>
+              <input type="text" name="quantity" [value]="product.data.quantity" class="incrementor">
+              <button type="button" class="btn btn-secondary" (click)="increaseQuantity(product.key,i)">+</button>
+            </div>
+          </div>
+          <a class="card-link" href="javasrcipt:void(0)" (click)="removeFromCart(product.key)">Remove From Cart</a>
         </div>
       </div>
       <img class="card-img-right flex-auto d-none d-md-block d-sm-inline" data-src="{{product.data.imageUrl}}" alt="Image not available"

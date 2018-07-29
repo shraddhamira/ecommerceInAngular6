@@ -23,9 +23,7 @@ export class ShoppingCartComponent implements OnInit {
       let jsonRecord = res.json();
       if (jsonRecord) {
         let keys = Object.keys(jsonRecord);
-        this.cartData = keys.map(function (key) {
-          return { key: key, value: jsonRecord[key] }
-        });
+        this.cartData = jsonRecord['items'];
         this.getAllProductsData();
       } else {
 
@@ -49,11 +47,29 @@ export class ShoppingCartComponent implements OnInit {
         console.error(err);
       }
     );
+  }
 
+  increaseQuantity(productKey,productIndex){
+    this.cartService.increaseQuantity(productKey);
+    this.selectedProductsdata.forEach((product,index)=>{
+      if(index==productIndex){
+        product['data'].quantity +=1;
+      }
+    })
+    //this.getCurrentCartDetails();
+  }
+
+  decreaseQuantity(productKey,productIndex){
+    this.cartService.decreaseQuantity(productKey);
+    this.selectedProductsdata.forEach((product,index)=>{
+      if(index==productIndex){
+        product['data'].quantity -=1;
+      }
+    })
   }
 
   getAllProductsData() {
-    this.selectedProductsArray = this.cartData[0].value;
+    this.selectedProductsArray = this.cartData;
     if (!this.productsData) {
       this.productService.getData().subscribe(
         (res) => {
@@ -63,11 +79,12 @@ export class ShoppingCartComponent implements OnInit {
             this.productsData = keys.map(function (key) {
               return { key: key, data: jsonRecord[key] }
             });
-
+            let selectedProductsArray = this.selectedProductsArray;
             this.selectedProductsdata = this.productsData.filter(product => {
-              return this.selectedProductsArray.find(function (element) {
-                return element == product.key;
-              });
+              return selectedProductsArray.find(function (element) {
+                product.data['quantity'] = element['quantity'];
+                return element.product == product.key;
+              })
             });
           } else {
             console.log("There are no items in your cart");

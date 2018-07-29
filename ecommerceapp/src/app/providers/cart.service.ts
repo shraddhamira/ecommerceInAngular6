@@ -5,27 +5,74 @@ import { Http } from "@angular/http";
 export class CartService {
     constructor(private http: Http) { }
 
-    addToExistingCart(cartId, product) {
+    addToExistingCart(cartId, productKey) {
         this.getExistingProducts().subscribe((res) => {
             let jsonRecord = res.json();
             if (jsonRecord) {
-                jsonRecord.items.push(product);
+                jsonRecord.items.push({ product: productKey, quantity: 1 });
             } else {
                 jsonRecord = {};
                 jsonRecord.items = [];
-                jsonRecord.items.push(product);
+                jsonRecord.items.push({ product: productKey, quantity: 1 });
             }
             this.http.put('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json',
                 { items: jsonRecord.items }).subscribe();
         }, (err) => {
             console.log(err);
         })
+    }
 
+    increaseQuantity(productKey) {
+        let cartId = this.getExistingCartId();
+        this.getExistingProducts().subscribe((res) => {
+            let jsonRecord = res.json();
+            jsonRecord = jsonRecord["items"];
+            if (jsonRecord) {
+                console.log(jsonRecord);
+                jsonRecord.forEach(item => {
+                    if (item.product == productKey) {
+                        item.quantity += 1;
+                    }
+                });
+            } else {
+                jsonRecord = {};
+                jsonRecord.items = [];
+                jsonRecord.items.push({ product: productKey, quantity: 1 });
+            }
+            this.http.put('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json',
+                { items: jsonRecord }).subscribe();
+        }, (err) => {
+            console.log(err);
+        })
+    }
+
+    decreaseQuantity(productKey) {
+        let cartId = this.getExistingCartId();
+        this.getExistingProducts().subscribe((res) => {
+            let jsonRecord = res.json();
+            jsonRecord = jsonRecord["items"];
+            if (jsonRecord) {
+                console.log(jsonRecord);
+                jsonRecord.forEach(item => {
+                    if (item.product == productKey) {
+                        item.quantity -= 1;
+                    }
+                });
+            } else {
+                jsonRecord = {};
+                jsonRecord.items = [];
+                jsonRecord.items.push({ product: productKey, quantity: 1 });
+            }
+            this.http.put('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json',
+                { items: jsonRecord }).subscribe();
+        }, (err) => {
+            console.log(err);
+        })
     }
 
     createCart(cartId, product) {
         return this.http.post('https://ecommerce-14fab.firebaseio.com/shoppingcarts.json', {
-            items: [product]
+            items: [{ product: product, quantity: 1 }]
         });
     }
 
@@ -63,8 +110,8 @@ export class CartService {
 
     removeFromCart(products) {
         let cartId = this.getExistingCartId();
-        return this.http.put('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json',{
-            items : products
+        return this.http.put('https://ecommerce-14fab.firebaseio.com/shoppingcarts/' + cartId + '.json', {
+            items: products
         });
     }
 
