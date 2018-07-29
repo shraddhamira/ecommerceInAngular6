@@ -25,7 +25,6 @@ export class ProductsComponent implements OnInit {
         let jsonRecord = res.json();
         let keys = Object.keys(jsonRecord);
         if (this.defaultCategory) {
-          console.log(this.defaultCategory + " is null");
           this.router.navigate(['products'], { queryParams: { category: this.defaultCategory } });
         }
         else {
