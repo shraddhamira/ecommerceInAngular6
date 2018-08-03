@@ -50,7 +50,7 @@
           <div class="col-md-4 col-sm-12 d-flex flex-column">
             <div>
               <h5 class="mb-2 float-left">
-                <a class="text-dark" href="#">Total Amount : {{orderDetails.totalAmount}}</a>
+                <a class="text-dark" href="#">Total Amount : {{orderDetails.totalAmount | currency}}</a>
               </h5>
             </div>
             <div class="card-text">
@@ -75,14 +75,14 @@
           </h4>
           <strong class="float-right ml-2 mb-2" [ngClass]="getProductDeliveryStatus(product.deliveryStatus)">{{product.deliveryStatus}}</strong>
         </div>
-
-
+        <small class="mb-0">Quantity is {{product.quantity}}</small>
+        <small class="mb-0">Price per item is {{product.price}}</small>
+        <small class="mb-0" *ngIf="product.deliveryStatus !='Delivered'">Delivery Location is {{orderDetails.shippingDetails.city}}</small>
+        <small class="mb-0" *ngIf="product.deliveryStatus =='Delivered'">Delivery to {{orderDetails.shippingDetails.city}}</small>
+        <small class="mb-2" *ngIf="product.deliveryStatus !='Delivered'">Arriving on {{product.tentativeDeliveryDate | date }}</small>
+        <small class="mb-2" *ngIf="product.deliveryStatus =='Delivered'">Arrived on {{product.finalDeliveryDate | date }}</small>
         <div class="card-text mb-auto">
-          <div class="mb-1" *ngIf="product.deliveryStatus !='Delivered'">Delivery Location is {{orderDetails.shippingDetails.city}}</div>
-          <div class="mb-1" *ngIf="product.deliveryStatus =='Delivered'">Delivery to {{orderDetails.shippingDetails.city}}</div>
-          <div class="mb-1" *ngIf="product.deliveryStatus !='Delivered'">Arriving on {{orderDetails.orderDeliveryDate | date }}</div>
-          <div class="mb-1" *ngIf="product.deliveryStatus =='Delivered'">Arrived on {{orderDetails.orderDeliveryDate | date }}</div>
-          <a class="card-link" routerLink="edit" [queryParams]="{order : product.key}">Update Delivery Status</a>
+          <a class="card-link" href="javascript:void(0)" (click)="editDeliveryStatus(content,product)">Update Delivery Status</a>
           <a class="card-link" routerLink="edit" [queryParams]="{order : product.key}" *ngIf="product.deliveryStatus !='Delivered'">Cancel</a>
         </div>
       </div>
@@ -91,6 +91,43 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Update Delivery Status</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="productForm">
+        <div class="form-group">
+          <label for="deliveryDate">Delivery Date</label>
+          <div class="input-group">
+            <input formControlName="deliveryDate" class="form-control" placeholder="yyyy-mm-dd" ngbDatepicker #deliveryDate="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="deliveryDate.toggle()" type="button">
+                <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+              </button>
+            </div>
+          </div>
+          <label for="deliveryStatus">Delivery Status</label>
+          <div class="input-group">
+            <select formControlName="deliveryStatus" class="form-control" name="deliveryStatus">
+              <option value="Shipped">Shipped</option>
+              <option value="Out for Delivery">Out For Delivery</option>
+              <option value="Delivered">Delivered</option>
+              <option value="In Progress">In Porgress</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Update</button>
+    </div>
+  </ng-template>
+
 
 
 <div class="row" *ngIf="editMode">

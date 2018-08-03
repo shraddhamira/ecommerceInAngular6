@@ -26,4 +26,8 @@ export class OrderService{
     getOrder(orderId){
         return this.http.get('https://ecommerce-14fab.firebaseio.com/orders.json?key='+orderId);;
     }
+
+    updateOrder(orderId,data){
+        return this.http.put('https://ecommerce-14fab.firebaseio.com/orders/'+orderId+'.json',data);
+    }
 }

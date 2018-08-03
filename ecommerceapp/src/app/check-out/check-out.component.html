@@ -15,7 +15,7 @@
           <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let item of selectedProductsdata">
             <div>
               <h6 class="my-0">{{item.data.title}}</h6>
-              <small class="text-muted">{{item.data.description}}</small>
+              <small class="text-muted">Quantity : {{item.data.quantity}}</small>
             </div>
             <span class="text-muted">{{item.data.price}}</span>
           </li>

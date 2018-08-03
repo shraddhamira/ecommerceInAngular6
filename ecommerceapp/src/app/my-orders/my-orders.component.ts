@@ -56,7 +56,7 @@ export class MyOrdersComponent implements OnInit {
       return 'text-danger';
     else if (deliveryStatus == 'Delivered' && orderStatus != 'Cancelled')
       return 'text-success';
-    else if (deliveryStatus == 'Delivered' && orderStatus != 'Cancelled')
-      return 'text-success';
+    else if (deliveryStatus == 'In Progress' && orderStatus != 'Cancelled')
+      return 'text-warning';
   }
 }

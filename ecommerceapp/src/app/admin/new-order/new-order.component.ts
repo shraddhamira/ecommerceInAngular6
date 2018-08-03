@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../providers/order.service';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-new-order',
   templateUrl: './new-order.component.html',
@@ -12,10 +12,13 @@ export class NewOrderComponent implements OnInit {
   editMode: boolean = false;
   orderKey: string;
   orderDetails: any = {};
+  productForm: FormGroup;
   shippingForm: FormGroup;
   paymentForm: FormGroup;
   form: FormGroup;
-  constructor(private routeParam: ActivatedRoute, private orderService: OrderService, private formBuilder: FormBuilder) { }
+  closeResult: string;
+  constructor(private routeParam: ActivatedRoute, private orderService: OrderService,
+    private formBuilder: FormBuilder, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -51,37 +54,43 @@ export class NewOrderComponent implements OnInit {
       (res) => {
         this.orderKey = res.get('order');
         if (this.orderKey) {
-          this.orderService.getOrder(this.orderKey).subscribe(
-            (res) => {
-              let jsonRecord = res.json();
-              jsonRecord = jsonRecord[this.orderKey];
-              let selectedProductsDetailsArray: any[] = [];
-              var numberOfProducts = jsonRecord['selectedProductsDetails'] && jsonRecord['selectedProductsDetails'].length ? jsonRecord['selectedProductsDetails'].length : 0;
-              for (var i = 0; i < numberOfProducts; i++) {
-                this.addProductForm();
-              }
-              this.form.patchValue(jsonRecord);
-              this.paymentForm.patchValue(jsonRecord['paymentDetails']);
-              this.shippingForm.patchValue(jsonRecord['shippingDetails']);
-              this.orderDetails = jsonRecord;
-            }
-          )
+          this.setOrderData();
         }
       },
       (error) => {
 
       }
     );
+  }
+  setOrderData() {
+    this.orderService.getOrder(this.orderKey).subscribe(
+      (res) => {
+        let jsonRecord = res.json();
+        jsonRecord = jsonRecord[this.orderKey];
+        let selectedProductsDetailsArray: any[] = [];
+        var numberOfProducts = jsonRecord['selectedProductsDetails'] && jsonRecord['selectedProductsDetails'].length ? jsonRecord['selectedProductsDetails'].length : 0;
+        for (var i = 0; i < numberOfProducts; i++) {
+          this.addProductForm();
+        }
+        this.form.patchValue(jsonRecord);
+        this.paymentForm.patchValue(jsonRecord['paymentDetails']);
+        this.shippingForm.patchValue(jsonRecord['shippingDetails']);
+        this.orderDetails = jsonRecord;
+      }
+    )
+  }
 
-
+  createProductPopup() {
+    this.productForm = new FormGroup({
+      deliveryDateAndTime: new FormControl(new Date(), []),
+      deliveryStatus: new FormControl('', [Validators.required])
+    });
   }
 
   createProductForm() {
     return this.formBuilder.group({
       title: [''],
-      //price: ['', [Validators.required]],
-      //imageUrl: ['', [Validators.required]],
-      //quantity : ['', [Validators.required]],
+      deliveryDateAndTime: [new Date()],
       deliveryStatus: ['', [Validators.required]]
     })
   }
@@ -116,5 +125,51 @@ export class NewOrderComponent implements OnInit {
 
   editOrder() {
     //open modal popup
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  editDeliveryStatus(content, product) {
+    console.log(product);
+    this.productForm = new FormGroup({
+      deliveryDate: new FormControl('', []),
+      deliveryStatus: new FormControl('', [Validators.required])
+    });
+    this.productForm.patchValue({
+      deliveryStatus: product.deliveryStatus,
+      deliveryDate: { year: new Date().getFullYear(), day: new Date().getDate(), month: new Date().getMonth() }
+    })
+    this.modalService.open(content, {}).result.then((result) => {
+      this.updateDeliveryStatus(product);
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  updateDeliveryStatus(editedProduct) {
+    this.orderDetails.selectedProductsDetails.forEach(product => {
+      if (product['key'] == editedProduct['key']) {
+        product['deliveryStatus'] = this.productForm.get('deliveryStatus').value;
+        product['deliveryDate'] = this.productForm.get('deliveryDate').value;
+        this.orderService.updateOrder(this.orderKey, this.orderDetails).subscribe(
+          (res) => {
+            console.log("Order updated");
+            this.setOrderData();
+          },
+          (err) => {
+            console.error("Order was not able to update");
+          }
+        )
+      }
+
+    });
   }
 }
