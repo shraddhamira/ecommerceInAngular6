@@ -78,7 +78,7 @@
         <small class="mb-0">Quantity is {{product.quantity}}</small>
         <small class="mb-0">Price per item is {{product.price}}</small>
         <small class="mb-0" *ngIf="product.deliveryStatus !='Delivered'">Delivery Location is {{orderDetails.shippingDetails.city}}</small>
-        <small class="mb-0" *ngIf="product.deliveryStatus =='Delivered'">Delivery to {{orderDetails.shippingDetails.city}}</small>
+        <small class="mb-0" *ngIf="product.deliveryStatus =='Delivered'">Delivered to {{orderDetails.shippingDetails.city}}</small>
         <small class="mb-2" *ngIf="product.deliveryStatus !='Delivered'">Arriving on {{product.tentativeDeliveryDate | date }}</small>
         <small class="mb-2" *ngIf="product.deliveryStatus =='Delivered'">Arrived on {{product.finalDeliveryDate | date }}</small>
         <div class="card-text mb-auto">
@@ -91,7 +91,7 @@
     </div>
   </div>
 </div>
-
+<!--Update Product Delivery Status Popup-->
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Update Delivery Status</h4>
