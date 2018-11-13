@@ -1,3 +1,17 @@
-<p>
-  <button class="btn btn-primary" (click)="login()">Login with Google</button>
-</p>
+<div class="text-center">
+  <form class="form-signin" [formGroup]="frm">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="username" class="sr-only">Email address</label>
+    <input type="text" class="form-control" placeholder="Username" formControlName="username" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" formControlName="password" class="form-control" placeholder="Password" required>
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" (click)="localLogin()">Sign in</button>
+    <label class="pt-md-2">Or</label><br />
+    <a (click)="login()"><img src="assets/img/google_signin.png" width="50px" height="50px"></a>
+  </form>
+</div>

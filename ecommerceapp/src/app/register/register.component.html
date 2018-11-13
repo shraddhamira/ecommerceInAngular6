@@ -1,0 +1,28 @@
+<div class="row text-center form-register">
+  <div class="col-md-12">
+    <form [formGroup]="frm" class="text-center">
+        <h1 class="h3 mb-3 font-weight-normal">Please Sign Up</h1>
+      <!--<div class="form-group">-->
+        <label class="sr-only">Username</label>
+        <input class="form-control" type="text" formControlName="username" placeholder="Enter Username">
+      <!--</div>
+      <div class="form-group">-->
+        <label class="sr-only">Password</label>
+        <input class="form-control" type="password" formControlName="password" placeholder="Enter Password">
+      <!--</div>
+      <div class="form-group">-->
+        <label class="sr-only">Retype Password</label>
+        <input class="form-control" type="password" formControlName="retypePassword" placeholder="Retype Password">
+      <!--</div>
+      <div class="form-group">-->
+        <label class="sr-only">Email Id</label>
+        <input class="form-control mb-3" type="email" formControlName="emailId" placeholder="Enter Email ID">
+      <!--</div>
+      <div class="form-group">-->
+        <button *ngIf="!userKey" class="btn btn-md btn-primary btn-block" (click)="saveUser()">Save</button>
+        <button *ngIf="userKey" class="btn btn-md btn-primary btn-block" (click)="updateUser()">Update</button>
+        <button class="btn btn-md btn-secondary btn-block" (click)="saveUser()">Cancel</button>
+      <!--</div>-->
+    </form>
+  </div>
+</div>

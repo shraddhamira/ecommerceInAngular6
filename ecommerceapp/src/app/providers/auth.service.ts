@@ -8,17 +8,35 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   public user$: Observable<firebase.User>;
+  loggedIn: boolean = false;
+  loggedInUser: any = {};
 
-  constructor(private _auth: AngularFireAuth) { 
+  constructor(private _auth: AngularFireAuth) {
     console.log(this.user$);
     this.user$ = this._auth.authState;
   }
 
   login() {
+    this.loggedIn = true;
     return this._auth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
   }
 
   logout() {
+    this.loggedIn = false;
+    this.loggedInUser = {};
     this._auth.auth.signOut();
+  }
+
+  setLoggedIn(user: any) {
+    this.loggedIn = true;
+    this.loggedInUser = user;
+  }
+
+  isLoggedIn(){
+    return this.loggedIn;
+  }
+
+  getLoggedInUser(){
+    return this.loggedInUser;
   }
 }

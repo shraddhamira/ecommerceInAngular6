@@ -36,6 +36,8 @@ import { OrderService } from './providers/order.service';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { NewOrderComponent } from './admin/new-order/new-order.component';
 import { UsersComponent } from './admin/users/users.component';
+import { RegisterComponent } from './register/register.component';
+import { UserService } from './providers/user.service';
 //firebase end
 @NgModule({
   declarations: [
@@ -54,13 +56,15 @@ import { UsersComponent } from './admin/users/users.component';
     NewProductComponent,
     CategoriesComponent,
     NewOrderComponent,
-    UsersComponent
+    UsersComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule,
     NgbModule.forRoot(), DataTableModule, AngularFireDatabaseModule, HttpModule, AngularFirestoreModule,
-    RouterModule.forRoot([//{ path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'index.html', redirectTo: '/home', pathMatch: 'full' },
+    RouterModule.forRoot([
+    { path: '', redirectTo: '/products', pathMatch: 'full' },
+    { path: 'index.html', redirectTo: '/products', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'products', component: ProductsComponent },
     { path: 'shopping-cart', component: ShoppingCartComponent },
@@ -75,11 +79,12 @@ import { UsersComponent } from './admin/users/users.component';
     { path: 'admin/users', component: UsersComponent },
     { path: 'login', component: LoginComponent },
     { path: 'cart', component: ShoppingCartComponent },
-    { path: 'check-out', component: CheckOutComponent }]),
+    { path: 'check-out', component: CheckOutComponent },
+    { path: 'register', component: RegisterComponent }]),
     AngularFireModule.initializeApp(environment.firebase, 'ecommerce'),
     AngularFireAuthModule
   ],
-  providers: [AuthService, ProductService, CategoryService, CartService, OrderService],
+  providers: [AuthService, ProductService, CategoryService, CartService, OrderService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
