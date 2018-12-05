@@ -38,6 +38,7 @@ import { NewOrderComponent } from './admin/new-order/new-order.component';
 import { UsersComponent } from './admin/users/users.component';
 import { RegisterComponent } from './register/register.component';
 import { UserService } from './providers/user.service';
+import { NotificationService } from './providers/NotificationService';
 //firebase end
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { UserService } from './providers/user.service';
     AngularFireModule.initializeApp(environment.firebase, 'ecommerce'),
     AngularFireAuthModule
   ],
-  providers: [AuthService, ProductService, CategoryService, CartService, OrderService, UserService],
+  providers: [AuthService, ProductService, CategoryService, CartService, 
+    OrderService, UserService, NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

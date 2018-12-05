@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../providers/product.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { CartService } from '../providers/cart.service';
+import { NotificationService } from '../providers/NotificationService';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -16,7 +18,7 @@ export class ProductsComponent implements OnInit {
   tempProducts: any[] = [];
   defaultCategory: string = null;
   constructor(private db: AngularFireDatabase, private routeParam: ActivatedRoute, private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute, private cartService: CartService,
-    private router: Router) { }
+    private router: Router, private notiicationService : NotificationService) { }
 
   ngOnInit() {
     this.getCategories();
@@ -72,6 +74,7 @@ export class ProductsComponent implements OnInit {
 
   addToCart(product) {
     this.cartService.addToCart(product);
+    this.notiicationService.pushMessage("Product added successfully");
   }
 
 }

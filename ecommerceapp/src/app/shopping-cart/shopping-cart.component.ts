@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../providers/cart.service';
 import { ProductService } from '../providers/product.service';
+import { NotificationService } from '../providers/NotificationService';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',

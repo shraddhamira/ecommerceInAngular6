@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { NotificationService } from '../providers/NotificationService';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notification',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-
-  constructor() { }
+  show : boolean = true;
+  //listOfMessages :  Observable<String>;
+  constructor(private notificationService : NotificationService) {
+   }
 
   ngOnInit() {
-  }
+    //this.listOfMessages = this.notificationService.popMessage();
+    }
 
 }

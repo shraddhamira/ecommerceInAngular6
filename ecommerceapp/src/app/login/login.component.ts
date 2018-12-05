@@ -34,10 +34,18 @@ export class LoginComponent implements OnInit {
   localLogin() {
     this.userService.getUser(this.frm.value['username']).subscribe(
       (res) => {
-        this.user = res.json();
-        if(this.user['password']===this.frm.value['password']){
-
-        }
+        let userDetails = res.json();
+        let x = this.router;
+        let auth = this.auth;
+        let current = this;
+        Object.keys(userDetails).forEach(key => {
+          current.user = userDetails[key];
+          if(current.user['password']==current.frm.value['password']){
+            auth.setLoggedIn(current.user);
+            x.navigate(['products']);
+          }  
+        });
+        
       },
       (error) => {
 
