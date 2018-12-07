@@ -53,8 +53,10 @@ export class ShoppingCartComponent implements OnInit {
   increaseQuantity(productKey,productIndex){
     this.cartService.increaseQuantity(productKey);
     this.selectedProductsdata.forEach((product,index)=>{
-      if(index==productIndex){
+      if(product['data'].quantity <= 10 && index==productIndex){
         product['data'].quantity +=1;
+      } else {
+        this.notiicationService.pushMessage("One user cannot order more than 10 quantity in one Order",NotificationType.Error);
       }
     })
     //this.getCurrentCartDetails();
@@ -88,7 +90,7 @@ export class ShoppingCartComponent implements OnInit {
               })
             });
           } else {
-             this.notiicationService.pushMessage("There are not items in your cart",NotificationType.Error);
+             this.notiicationService.pushMessage("There are not items in your cart",NotificationType.Info);
           }
         },
         (err) => {
