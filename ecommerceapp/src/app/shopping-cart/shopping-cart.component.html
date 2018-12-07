@@ -21,7 +21,7 @@
           
           <div class="mb-2">
             Quantity <div class="btn-group" role="group">
-              <button type="button" class="btn btn-secondary" (click)="decreaseQuantity(product.key,i)">-</button>
+              <button type="button" class="btn btn-secondary" [disabled]="i>0" (click)="decreaseQuantity(product.key,i)">-</button>
               <input type="text" name="quantity" [value]="product.data.quantity" class="incrementor">
               <button type="button" class="btn btn-secondary" (click)="increaseQuantity(product.key,i)">+</button>
             </div>
