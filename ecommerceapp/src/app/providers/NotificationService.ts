@@ -1,24 +1,21 @@
 import { Injectable } from "@angular/core";
-
-import { Observable } from "rxjs";
+import { Http } from '@angular/http';
+import { Observable, Subject } from "rxjs";
+import { CustomNotification, NotificationType } from "../models/notiications.model";
 
 @Injectable()
 export class NotificationService {
-    public listOfMessages: Observable<String>;
+    private subject = new Subject<CustomNotification>();
 
-    pushMessage(msg: string) {
-        this.listOfMessages = new Observable<String>(
-            obs=>{
-                obs.next(msg);
-            }
-        );
+
+
+    pushMessage(msg: String, type : NotificationType) {
+        let n: CustomNotification;
+        n = new CustomNotification(msg, type);
+        this.subject.next(n);
     }
 
-    getAllMessages() {
-        return this.listOfMessages;
-    }
-
-    popMessage() {
-        return this.listOfMessages;
+    popMessage(): Observable<any> {
+        return this.subject.asObservable();
     }
 }

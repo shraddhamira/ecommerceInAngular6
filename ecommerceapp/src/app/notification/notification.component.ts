@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NotificationService } from '../providers/NotificationService';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { CustomNotification, NotificationType } from '../models/notiications.model';
 
 @Component({
   selector: 'app-notification',
@@ -8,13 +9,35 @@ import { Observable } from 'rxjs';
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-  show : boolean = true;
-  //listOfMessages :  Observable<String>;
-  constructor(private notificationService : NotificationService) {
-   }
+  notifications : CustomNotification[] = []; 
+  message : String;
+  constructor(private notificationService: NotificationService) {
+  }
 
-  ngOnInit() {
-    //this.listOfMessages = this.notificationService.popMessage();
-    }
+  ngOnInit() { 
+    this.notificationService.popMessage().subscribe((cn : CustomNotification)=>{
+      if(!cn){
+        this.notifications=[];
+      }
+      this.notifications.push(cn);
+      let me = this;
+      setTimeout(function(){me.removeNotification(cn)},2500);
+    });
+  }
 
+  removeNotification(cn : CustomNotification){
+    this.notifications = this.notifications.filter(x => x !== cn);
+  }
+
+  getCssClass(cn : CustomNotification) {
+    console.log(NotificationType.Success);
+    if (cn.getType() === NotificationType.Success)
+      return 'text-success';
+    else if (cn.getType() === NotificationType.Warn)
+      return 'text-warn';
+    else if (cn.getType() === NotificationType.Error)
+      return 'text-danger';
+    else if (cn.getType() === NotificationType.Info)
+      return 'text-primary';
+  }
 }

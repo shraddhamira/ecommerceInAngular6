@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../providers/order.service';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService } from '../../providers/NotificationService';
+import { NotificationType } from '../../models/notiications.model';
 @Component({
   selector: 'app-new-order',
   templateUrl: './new-order.component.html',
@@ -18,7 +20,7 @@ export class NewOrderComponent implements OnInit {
   form: FormGroup;
   closeResult: string;
   constructor(private routeParam: ActivatedRoute, private orderService: OrderService,
-    private formBuilder: FormBuilder, private modalService: NgbModal) { }
+    private formBuilder: FormBuilder, private modalService: NgbModal, private notify : NotificationService) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -58,7 +60,7 @@ export class NewOrderComponent implements OnInit {
         }
       },
       (error) => {
-
+        this.notify.pushMessage("Error occurred while fetching Order, Please click on Back and click on Order again",NotificationType.Error);
       }
     );
   }
@@ -161,11 +163,11 @@ export class NewOrderComponent implements OnInit {
         product['deliveryDate'] = this.productForm.get('deliveryDate').value;
         this.orderService.updateOrder(this.orderKey, this.orderDetails).subscribe(
           (res) => {
-            console.log("Order updated");
+            this.notify.pushMessage("Delivery Status updated successfully.",NotificationType.Success);
             this.setOrderData();
           },
           (err) => {
-            console.error("Order was not able to update");
+            this.notify.pushMessage("Error occurred while updating Delivery Status",NotificationType.Error);
           }
         )
       }

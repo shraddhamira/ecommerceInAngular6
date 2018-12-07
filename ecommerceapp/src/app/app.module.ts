@@ -40,6 +40,10 @@ import { RegisterComponent } from './register/register.component';
 import { UserService } from './providers/user.service';
 import { NotificationService } from './providers/NotificationService';
 //firebase end
+
+//models
+import { CustomNotification } from "./models/notiications.model";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,7 +90,8 @@ import { NotificationService } from './providers/NotificationService';
     AngularFireAuthModule
   ],
   providers: [AuthService, ProductService, CategoryService, CartService, 
-    OrderService, UserService, NotificationService],
+    OrderService, UserService, NotificationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

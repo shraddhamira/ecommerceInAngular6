@@ -6,6 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { CartService } from '../providers/cart.service';
 import { NotificationService } from '../providers/NotificationService';
 import { Observable } from 'rxjs';
+import { NotificationType } from '../models/notiications.model';
 
 @Component({
   selector: 'app-products',
@@ -42,7 +43,7 @@ export class ProductsComponent implements OnInit {
             })
           },
           (err) => {
-            console.log('The error is ', err)
+            this.notiicationService.pushMessage("Error occurred while fetchig selected Category",NotificationType.Error);
           }
         );
 
@@ -51,7 +52,7 @@ export class ProductsComponent implements OnInit {
         })
       },
       (error) => {
-        console.log("Record updated")
+        this.notiicationService.pushMessage("Error occurred while fetchig Products",NotificationType.Error);
       }
     )
   }
@@ -67,14 +68,14 @@ export class ProductsComponent implements OnInit {
         this.defaultCategory = this.categories[0].key;
       },
       (err) => {
-        console.error(err);
+        this.notiicationService.pushMessage("Error occurred while fetchig Categories",NotificationType.Error);
       }
     )
   }
 
   addToCart(product) {
     this.cartService.addToCart(product);
-    this.notiicationService.pushMessage("Product added successfully");
+    this.notiicationService.pushMessage("Product added to Cart",NotificationType.Success);
   }
 
 }

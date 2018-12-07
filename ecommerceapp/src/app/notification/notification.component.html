@@ -1,3 +1,4 @@
-Look here <div id="snackbar" [ngClass]="{'show':true}">
-  notification works! {{listOfMessages |async}}
+<div id="snackbar" *ngFor="let notification of notifications" 
+[ngClass]="{show : notification}" >
+   <h5><span class="{{getCssClass(notification)}}">{{notification.message}}</span></h5>
 </div>
