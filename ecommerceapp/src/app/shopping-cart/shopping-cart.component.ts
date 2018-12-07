@@ -12,7 +12,7 @@ export class ShoppingCartComponent implements OnInit {
   private productsData: any[];
   selectedProductsdata: any[];
   selectedProductsArray: any[];
-  constructor(private cartService: CartService, private productService: ProductService) { }
+  constructor(private cartService: CartService, private productService: ProductService, private notificationService : NotificationService) { }
 
   ngOnInit() {
     this.getCurrentCartDetails();
@@ -88,7 +88,7 @@ export class ShoppingCartComponent implements OnInit {
               })
             });
           } else {
-            console.log("There are no items in your cart");
+             this.notiicationService.pushMessage("There are not items in your cart",NotificationType.Error);
           }
         },
         (err) => {
