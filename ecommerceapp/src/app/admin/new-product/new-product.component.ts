@@ -3,6 +3,8 @@ import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductService } from '../../providers/product.service';
 import { CategoryService } from '../../providers/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NotificationService } from '../../providers/NotificationService';
+import { NotificationType } from '../../models/notiications.model';
 
 @Component({
   selector: 'app-new-product',
@@ -12,9 +14,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class NewProductComponent implements OnInit {
   frm: FormGroup;
   categories: any[] = [];
-productKey : string;
+  productKey : string;
   constructor(private productService: ProductService, private categoryService: CategoryService,
-    private router: Router, private routeParam: ActivatedRoute) {
+    private router: Router, private routeParam: ActivatedRoute, 
+    private notificationService : NotificationService) {
     this.frm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required]),
@@ -41,19 +44,18 @@ productKey : string;
         }
       },
       (error) => {
-
+        this.notificationService.pushMessage("Error occurred while fetching products",NotificationType.Error);
       }
-    )
-
-
+    );
   }
 
   saveProduct() {
     this.productService.saveProduct(this.frm.value).subscribe(
       (res) => {
+        this.notificationService.pushMessage("Product has been added successfully",NotificationType.Success);
         this.router.navigate(['admin/products']);
       }, (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while adding product",NotificationType.Error);
       }
     );
   }
@@ -68,7 +70,7 @@ productKey : string;
         })
       },
       (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while fetching categories",NotificationType.Error);
       }
     )
   }
@@ -76,11 +78,11 @@ productKey : string;
   updateProduct() {
     this.productService.updateProduct(this.productKey,this.frm.value).subscribe(
       (res) => {
+        this.notificationService.pushMessage("Product has been added successfully",NotificationType.Success);
         this.router.navigate(['admin/products']);
       }, (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while updating product",NotificationType.Error);
       }
     );
   }
 }
-

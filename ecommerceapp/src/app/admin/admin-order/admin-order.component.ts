@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { NotificationService } from '../../providers/NotificationService';
+import { NotificationType } from '../../models/notiications.model';
 
 
 @Component({
@@ -18,7 +20,7 @@ export class AdminOrderComponent implements OnInit {
   private itemsCollection: AngularFirestoreCollection<any>;
 
   constructor(private orderService: OrderService, private authService: AuthService,
-    private afs: AngularFirestore, private db: AngularFireDatabase) {
+    private afs: AngularFirestore, private db: AngularFireDatabase, private notificationService : NotificationService) {
 
   }
 
@@ -34,7 +36,7 @@ export class AdminOrderComponent implements OnInit {
         }
       },
       (err) => {
-        console.log(err);
+        this.notificationService.pushMessage("Error occurred while fetching orders",NotificationType.Error);
       }
     );
   }

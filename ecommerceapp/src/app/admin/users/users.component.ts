@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../providers/user.service';
+import { NotificationService } from '../../providers/NotificationService';
+import { NotificationType } from '../../models/notiications.model';
 
 @Component({
   selector: 'app-users',
@@ -8,7 +10,7 @@ import { UserService } from '../../providers/user.service';
 })
 export class UsersComponent implements OnInit {
   users: any[] = [];
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private notificationService : NotificationService) { }
 
   ngOnInit() {
     this.getAllUsers();
@@ -18,14 +20,13 @@ export class UsersComponent implements OnInit {
     this.userService.getAllUsers().subscribe(
       (res) => {
         let jsonRecord = res.json();
-        console.log(jsonRecord);
         let keys = Object.keys(jsonRecord);
         this.users = keys.map(function (key) {
           return { key: key, data: jsonRecord[key] }
         });
       },
       (err) => {
-        console.log(err);
+        this.notificationService.pushMessage("Error while fetching users", NotificationType.Error);
       }
     )
   }

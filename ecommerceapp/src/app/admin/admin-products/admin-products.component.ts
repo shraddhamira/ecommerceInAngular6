@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../providers/product.service';
 import { CategoryService } from '../../providers/category.service';
+import { NotificationType } from '../../models/notiications.model';
+import { NotificationService } from '../../providers/NotificationService';
 
 @Component({
   selector: 'app-admin-products',
@@ -11,7 +13,8 @@ export class AdminProductsComponent implements OnInit {
   products: any[] = [];
   categories: any[] = [];
 
-  constructor(private productService: ProductService, private categoryService: CategoryService) { }
+  constructor(private productService: ProductService, private categoryService: CategoryService,
+  private notificationService : NotificationService) { }
 
   ngOnInit() {
     this.getCategories();
@@ -22,14 +25,13 @@ export class AdminProductsComponent implements OnInit {
     this.productService.getData().subscribe(
       (res) => {
         let jsonRecord = res.json();
-        console.log(jsonRecord);
         let keys = Object.keys(jsonRecord);
         this.products = keys.map(function (key) {
           return { key: key, data: jsonRecord[key] }
         });
       },
       (err) => {
-        console.log(err);
+        this.notificationService.pushMessage("Error occurred while fetching products",NotificationType.Error);
       }
     )
   }
@@ -44,7 +46,7 @@ export class AdminProductsComponent implements OnInit {
         })
       },
       (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while fetching categories",NotificationType.Error);
       }
     )
   }
@@ -55,7 +57,7 @@ export class AdminProductsComponent implements OnInit {
         this.getProductData();
       },
       (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while deleting Product",NotificationType.Error);
       }
     )
   }

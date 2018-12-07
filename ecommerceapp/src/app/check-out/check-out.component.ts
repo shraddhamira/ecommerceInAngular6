@@ -6,6 +6,8 @@ import { OrderService } from '../providers/order.service';
 import { AuthService } from '../providers/auth.service';
 import { throws } from 'assert';
 import { Router } from '@angular/router';
+import { NotificationService } from '../providers/NotificationService';
+import { NotificationType } from '../models/notiications.model';
 
 @Component({
   selector: 'app-check-out',
@@ -22,7 +24,7 @@ export class CheckOutComponent implements OnInit {
   totalPrice: number = 0;
   constructor(private cartService: CartService, private productService: ProductService,
     private orderService: OrderService, private authService: AuthService,
-    private router: Router) { }
+    private router: Router, private notificationService : NotificationService) { }
 
   ngOnInit() {
     this.getCurrentCartDetails();
@@ -67,10 +69,10 @@ export class CheckOutComponent implements OnInit {
         this.cartData = jsonRecord.items;
         this.getAllProductsData();
       } else {
-        console.log("There are no items in your cart");
+        this.notificationService.pushMessage("There are no items in your cart", NotificationType.Info);
       }
     }, (err) => {
-      console.log(err);
+      this.notificationService.pushMessage("Error while fetching cart details", NotificationType.Error);
     })
   }
 
@@ -98,7 +100,7 @@ export class CheckOutComponent implements OnInit {
         }).reduce((total, product)=> parseInt(total) + (parseInt(product.data.price) * parseInt(product.data.quantity)),0);
       },
       (err) => {
-
+        this.notificationService.pushMessage("Error while fetching products", NotificationType.Error);
       }
     )
   }
@@ -106,10 +108,10 @@ export class CheckOutComponent implements OnInit {
   submitOrderDetails() {
     this.cartService.destroyCart().subscribe(
       (res) => {
-        console.log("Cart Destroyed");
+        
       },
       (err) => {
-        console.error(err);
+        
       }
     );
     let finalProducts: any[] = [];
@@ -136,11 +138,11 @@ export class CheckOutComponent implements OnInit {
         trackingId: new Date().getTime()
       }).subscribe(
         (res) => {
-          console.log("Order Placed Successfully");
+          this.notificationService.pushMessage("Order has been placed successfully", NotificationType.Success);
           this.router.navigate(['my-orders']);
         },
         (error) => {
-          console.error(error);
+          this.notificationService.pushMessage("Error while placing order", NotificationType.Error);
         }
       )
   }

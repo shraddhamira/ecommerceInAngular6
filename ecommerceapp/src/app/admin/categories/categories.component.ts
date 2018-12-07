@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../providers/category.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NotificationService } from '../../providers/NotificationService';
+import { NotificationType } from '../../models/notiications.model';
 
 @Component({
   selector: 'app-categories',
@@ -12,7 +14,7 @@ export class CategoriesComponent implements OnInit {
   frm: FormGroup;
   categories: any[] = [];
 categoryKey : string;
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private notificationService : NotificationService) {
     this.frm = new FormGroup({
       description: new FormControl('', [Validators.required])
     });
@@ -32,7 +34,7 @@ categoryKey : string;
         })
       },
       (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while fetching categories",NotificationType.Error);
       }
     )
   }
@@ -44,7 +46,7 @@ categoryKey : string;
         this.frm.patchValue({ description: '' });
       },
       (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while adding categories",NotificationType.Error);
       }
     )
   }
@@ -55,7 +57,7 @@ categoryKey : string;
         this.getCategories();
       },
       (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while deleting category",NotificationType.Error);
       }
     )
   }
@@ -73,7 +75,7 @@ categoryKey : string;
         this.frm.patchValue({ description: '' });
       },
       (err) => {
-        console.error(err);
+        this.notificationService.pushMessage("Error occurred while updating category",NotificationType.Error);
       }
     )
   }

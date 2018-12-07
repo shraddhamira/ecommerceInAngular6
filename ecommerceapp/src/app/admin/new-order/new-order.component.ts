@@ -20,7 +20,8 @@ export class NewOrderComponent implements OnInit {
   form: FormGroup;
   closeResult: string;
   constructor(private routeParam: ActivatedRoute, private orderService: OrderService,
-    private formBuilder: FormBuilder, private modalService: NgbModal, private notify : NotificationService) { }
+    private formBuilder: FormBuilder, private modalService: NgbModal, 
+    private notify : NotificationService) { }
 
   ngOnInit() {
     this.form = new FormGroup({

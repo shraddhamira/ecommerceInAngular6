@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../providers/cart.service';
 import { ProductService } from '../providers/product.service';
 import { NotificationService } from '../providers/NotificationService';
+import { NotificationType } from '../models/notiications.model';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -12,7 +13,8 @@ export class ShoppingCartComponent implements OnInit {
   private productsData: any[];
   selectedProductsdata: any[];
   selectedProductsArray: any[];
-  constructor(private cartService: CartService, private productService: ProductService, private notificationService : NotificationService) { }
+  constructor(private cartService: CartService, private productService: ProductService, 
+    private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.getCurrentCartDetails();
@@ -50,23 +52,23 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
 
-  increaseQuantity(productKey,productIndex){
+  increaseQuantity(productKey, productIndex) {
     this.cartService.increaseQuantity(productKey);
-    this.selectedProductsdata.forEach((product,index)=>{
-      if(product['data'].quantity <= 10 && index==productIndex){
-        product['data'].quantity +=1;
+    this.selectedProductsdata.forEach((product, index) => {
+      if (product['data'].quantity <= 10 && index == productIndex) {
+        product['data'].quantity += 1;
       } else {
-        this.notiicationService.pushMessage("One user cannot order more than 10 quantity in one Order",NotificationType.Error);
+        this.notificationService.pushMessage("One user cannot order more than 10 quantity in one Order", NotificationType.Error);
       }
     })
     //this.getCurrentCartDetails();
   }
 
-  decreaseQuantity(productKey,productIndex){
+  decreaseQuantity(productKey, productIndex) {
     this.cartService.decreaseQuantity(productKey);
-    this.selectedProductsdata.forEach((product,index)=>{
-      if(index==productIndex){
-        product['data'].quantity -=1;
+    this.selectedProductsdata.forEach((product, index) => {
+      if (index == productIndex) {
+        product['data'].quantity -= 1;
       }
     })
   }
@@ -90,7 +92,7 @@ export class ShoppingCartComponent implements OnInit {
               })
             });
           } else {
-             this.notiicationService.pushMessage("There are not items in your cart",NotificationType.Info);
+            this.notificationService.pushMessage("There are not items in your cart", NotificationType.Info);
           }
         },
         (err) => {
