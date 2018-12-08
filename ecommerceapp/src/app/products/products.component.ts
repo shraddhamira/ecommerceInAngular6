@@ -7,7 +7,9 @@ import { CartService } from '../providers/cart.service';
 import { NotificationService } from '../providers/NotificationService';
 import { Observable } from 'rxjs';
 import { NotificationType } from '../models/notiications.model';
-
+import { Category } from '../models/category.model';
+import { callNgModuleLifecycle } from '@angular/core/src/view/ng_module';
+import { zip } from 'rxjs';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -18,64 +20,69 @@ export class ProductsComponent implements OnInit {
   products: any[] = [];
   tempProducts: any[] = [];
   defaultCategory: string = null;
-  constructor(private db: AngularFireDatabase, private routeParam: ActivatedRoute, private productService: ProductService, private categoryService: CategoryService, private route: ActivatedRoute, private cartService: CartService,
-    private router: Router, private notiicationService : NotificationService) { }
+  filter: any = {};
+
+  constructor(private db: AngularFireDatabase, private routeParam: ActivatedRoute, private categoryService: CategoryService,
+    private productService: ProductService, private route: ActivatedRoute, private cartService: CartService,
+    private router: Router, private notiicationService: NotificationService) { }
+
 
   ngOnInit() {
     this.getCategories();
-    this.productService.getData().subscribe(
+  }
+
+  getProductsData() {
+    this.productService.getDataO().subscribe((product) => {
+      console.log("prod sub");
+      let keys = Object.keys(product);
+
+      this.products = keys.map(function (key) {
+        return { key: key, data: product[key] };
+      });
+
+      this.tempProducts = this.products.filter(product => {
+        return this.categories[0].key === product.data.category;
+      });
+
+      return this.tempProducts;
+    },
+      (error) => {
+        this.notiicationService.pushMessage("Error occurred while fetchig Products", NotificationType.Error);
+      });
+    this.routeParam.queryParamMap.subscribe(
       (res) => {
-        let jsonRecord = res.json();
-        let keys = Object.keys(jsonRecord);
-        if (this.defaultCategory) {
-          this.router.navigate(['products'], { queryParams: { category: this.defaultCategory } });
-        }
-        else {
-          this.tempProducts = this.products = keys.map(function (key) {
-            return { key: key, data: jsonRecord[key] };
+        if (res.get('category')) {
+          this.tempProducts = this.products.filter(product => {
+            console.log("queryparam subscribe");
+            return res.get('category') === product.data.category;
           });
         }
-
-        this.routeParam.queryParamMap.subscribe(
-          (res) => {
-            this.tempProducts = this.products.filter(product => {
-              return res.get('category') === product.data.category;
-            })
-          },
-          (err) => {
-            this.notiicationService.pushMessage("Error occurred while fetchig selected Category",NotificationType.Error);
-          }
-        );
-
-        this.products = keys.map(function (key) {
-          return { key: key, data: jsonRecord[key] };
-        })
       },
-      (error) => {
-        this.notiicationService.pushMessage("Error occurred while fetchig Products",NotificationType.Error);
+      (err) => {
+        this.notiicationService.pushMessage("Error occurred while fetchig selected Category", NotificationType.Error);
       }
-    )
+    );
   }
 
   getCategories() {
-    this.categoryService.getCategories().subscribe(
-      (res) => {
-        let jsonRecord = res.json();
-        let keys = Object.keys(jsonRecord);
-        this.categories = keys.map(function (key) {
-          return { key: key, data: jsonRecord[key] }
-        });
-        this.defaultCategory = this.categories[0].key;
-      },
-      (err) => {
-        this.notiicationService.pushMessage("Error occurred while fetchig Categories",NotificationType.Error);
-      }
-    )
+    zip(this.categoryService.getCategoriesO(), (category: any[]) => {
+      let keys = Object.keys(category);
+      this.categories = keys.map(function (key) {
+        return { key: key, data: category[key] }
+      });
+      this.defaultCategory = this.categories[0].key;
+      return this.categories;
+    }).subscribe((r) => {
+      this.getProductsData();
+    });
   }
 
   addToCart(product) {
     this.cartService.addToCart(product);
-    this.notiicationService.pushMessage("Product added to Cart",NotificationType.Success);
+    this.notiicationService.pushMessage("Product added to Cart", NotificationType.Success);
   }
 
+  reloadData() {
+    console.log(this.filter);
+  }
 }

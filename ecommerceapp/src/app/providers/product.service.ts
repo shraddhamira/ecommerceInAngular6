@@ -1,12 +1,23 @@
 import { Injectable } from "@angular/core";
 import { Http } from '@angular/http';
+import { Subject, Observable } from "rxjs";
 
 @Injectable()
 export class ProductService {
-    constructor(private http: Http) { }
+    private subject = new Subject<any>();
+    constructor(private http: Http) {
+        this.getData().subscribe((res)=>{
+            let records = res.json();
+            this.subject.next(records);
+        });
+    }
 
     getData() {
         return this.http.get('https://ecommerce-14fab.firebaseio.com/products.json');
+    }
+
+    getDataO(): Observable<any> {
+        return this.subject.asObservable();
     }
 
     saveProduct(data:any){

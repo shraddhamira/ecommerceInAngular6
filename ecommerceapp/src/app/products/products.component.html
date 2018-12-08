@@ -8,6 +8,13 @@
   </div>
   <div class="col">
     <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <input type="text" [(ngModel)]="filter.productName" class="form-control" placeholder="Enter Product Name" (keyup.enter)="reloadData()" style="width: 15rem;">
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-4" *ngFor="let x of tempProducts;let i = index;" style="margin-bottom:15px">
         <div class="card" style="width: 15rem;">
           <img class="card-img-top" width=150 height=150 src="{{x.data.imageUrl}}" alt="Card image cap">
