@@ -15,7 +15,6 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
 import { AdminOrderComponent } from './admin/admin-order/admin-order.component';
 import { LoginComponent } from './login/login.component';
 import { RouterModule, Route } from '@angular/router';
-import { OrderSucessComponent } from './order-sucess/order-sucess.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 //firebase start
@@ -57,7 +56,6 @@ import { CustomNotification } from "./models/notiications.model";
     AdminProductsComponent,
     AdminOrderComponent,
     LoginComponent,
-    OrderSucessComponent,
     NewProductComponent,
     CategoriesComponent,
     NewOrderComponent,
@@ -74,7 +72,6 @@ import { CustomNotification } from "./models/notiications.model";
     { path: 'products', component: ProductsComponent },
     { path: 'shopping-cart', component: ShoppingCartComponent },
     { path: 'checkout', component: CheckOutComponent },
-    { path: 'order-success', component: OrderSucessComponent },
     { path: 'my-orders', component: MyOrdersComponent },
     { path: 'admin/products', component: AdminProductsComponent },
     { path: 'admin/products/new', component: NewProductComponent },

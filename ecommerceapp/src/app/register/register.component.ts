@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../providers/user.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../providers/notification.service';
+import { NotificationService } from '../providers/NotificationService';
+import { NotificationType } from '../models/notiications.model';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -11,7 +12,8 @@ import { NotificationService } from '../providers/notification.service';
 export class RegisterComponent implements OnInit {
   frm: FormGroup;
   userKey : string;
-  constructor(private userService : UserService, private router : Router, private notificationService : NotificationService) {
+  constructor(private userService : UserService, private router : Router, 
+    private notificationService : NotificationService) {
     this.frm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
@@ -26,10 +28,10 @@ export class RegisterComponent implements OnInit {
   saveUser(){
     this.userService.saveUser(this.frm.value).subscribe(
       (res) => {
-        this.notiicationService.pushMessage("User registration successful. Please login with your credintials.",NotificationType.Info);
+        this.notificationService.pushMessage("User registration successful. Please login with your credintials.",NotificationType.Info);
         this.router.navigate(['login']);
       }, (err) => {
-        this.notiicationService.pushMessage("User registration was failed due to technical issue. Please contact administrator.",NotificationType.Error);
+        this.notificationService.pushMessage("User registration was failed due to technical issue. Please contact administrator.",NotificationType.Error);
       }
     );
   }
@@ -39,7 +41,7 @@ export class RegisterComponent implements OnInit {
       (res) => {
         this.router.navigate(['login']);
       }, (err) => {
-        this.notiicationService.pushMessage("User registration was failed due to technical issue. Please contact administrator.",NotificationType.Error);
+        this.notificationService.pushMessage("User registration was failed due to technical issue. Please contact administrator.",NotificationType.Error);
       }
     );
   }

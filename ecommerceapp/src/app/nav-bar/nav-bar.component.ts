@@ -3,13 +3,14 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import { AuthService } from '../providers/auth.service';
 import { CartService } from '../providers/cart.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  constructor(public auth: AuthService, private cartService: CartService) { }
+  constructor(public auth: AuthService, private cartService: CartService, private router : Router) { }
   cartData: any[];
   toggleMenu: boolean;
   ngOnInit() {
