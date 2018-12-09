@@ -33,7 +33,6 @@ export class ProductsComponent implements OnInit {
 
   getProductsData() {
     this.productService.getDataO().subscribe((product) => {
-      console.log("prod sub");
       let keys = Object.keys(product);
 
       this.products = keys.map(function (key) {
@@ -43,7 +42,6 @@ export class ProductsComponent implements OnInit {
       this.tempProducts = this.products.filter(product => {
         return this.categories[0].key === product.data.category;
       });
-
       return this.tempProducts;
     },
       (error) => {
@@ -53,7 +51,6 @@ export class ProductsComponent implements OnInit {
       (res) => {
         if (res.get('category')) {
           this.tempProducts = this.products.filter(product => {
-            console.log("queryparam subscribe");
             return res.get('category') === product.data.category;
           });
         }
@@ -83,6 +80,24 @@ export class ProductsComponent implements OnInit {
   }
 
   reloadData() {
-    console.log(this.filter);
+    if (this.filter) {
+      if (this.filter['productName']) {
+        this.tempProducts = this.products.filter(product => {
+          let productName = new String(product.data.title);
+          return !productName.search(this.filter['productName']);
+        });
+      }
+      if (this.filter['minAmount'] || this.filter['maxAmount']) {
+        this.tempProducts = this.products.filter(product => {
+          let amount = new Number(product.data.price);
+          return this.filter['minAmount'] && amount > this.filter['minAmount'] && this.filter['maxAmount'] && amount <= this.filter['maxAmount'];
+        });
+      }
+    }
+    else {
+      this.tempProducts = this.products.filter(product => {
+        return this.defaultCategory === product.data.category;
+      });
+    }
   }
 }
