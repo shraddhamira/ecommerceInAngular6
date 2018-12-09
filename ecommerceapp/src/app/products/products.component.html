@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-3" style="margin-bottom:15px">
     <div class="list-group">
-      <a class="list-group-item" *ngFor="let cat of categories" routerLink="/products" [queryParams]="{category : cat.key}">
+      <a class="list-group-item" *ngFor="let cat of categories" routerLink="/products" [queryParams]="{category : cat.key}" (click)="defaultCategory=cat.key">
         {{cat.data.description}}
       </a>
     </div>
@@ -10,7 +10,20 @@
     <div class="row">
       <div class="col-md-4">
         <div class="form-group">
-          <input type="text" [(ngModel)]="filter.productName" class="form-control" placeholder="Enter Product Name" (keyup.enter)="reloadData()" style="width: 15rem;">
+          <input type="text" [(ngModel)]="filter.productName" class="form-control" placeholder="Enter Product Name" (keyup.enter)="reloadData()"
+            style="width: 15rem;">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <input type="text" [(ngModel)]="filter.minAmount" class="form-control" placeholder="Enter Min Amount" (keyup.enter)="reloadData()"
+            style="width: 15rem;">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <input type="text" [(ngModel)]="filter.maxAmount" class="form-control" placeholder="Enter Maximum Amount" (keyup.enter)="reloadData()"
+            style="width: 15rem;">
         </div>
       </div>
     </div>
