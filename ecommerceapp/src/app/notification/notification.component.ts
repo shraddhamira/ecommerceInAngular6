@@ -30,7 +30,6 @@ export class NotificationComponent implements OnInit {
   }
 
   getCssClass(cn : CustomNotification) {
-    console.log(NotificationType.Success);
     if (cn.getType() === NotificationType.Success)
       return 'text-success';
     else if (cn.getType() === NotificationType.Warn)
