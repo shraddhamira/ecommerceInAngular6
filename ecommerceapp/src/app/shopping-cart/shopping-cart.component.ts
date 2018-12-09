@@ -13,7 +13,7 @@ export class ShoppingCartComponent implements OnInit {
   private productsData: any[];
   selectedProductsdata: any[];
   selectedProductsArray: any[];
-  constructor(private cartService: CartService, private productService: ProductService, 
+  constructor(private cartService: CartService, private productService: ProductService,
     private notificationService: NotificationService) { }
 
   ngOnInit() {
@@ -55,10 +55,12 @@ export class ShoppingCartComponent implements OnInit {
   increaseQuantity(productKey, productIndex) {
     this.cartService.increaseQuantity(productKey);
     this.selectedProductsdata.forEach((product, index) => {
-      if (product['data'].quantity <= 10 && index == productIndex) {
-        product['data'].quantity += 1;
-      } else {
-        this.notificationService.pushMessage("One user cannot order more than 10 quantity in one Order", NotificationType.Error);
+      if (index == productIndex) {
+        if (product['data'].quantity < 10) {
+          product['data'].quantity += 1;
+        } else {
+          this.notificationService.pushMessage("One user cannot order more than 10 quantity in one Order", NotificationType.Error);
+        }
       }
     })
     //this.getCurrentCartDetails();
